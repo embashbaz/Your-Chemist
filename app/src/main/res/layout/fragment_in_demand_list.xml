@@ -5,12 +5,10 @@
     android:layout_height="match_parent"
     tools:context=".Chemist.InDemandList">
 
-    <!-- TODO: Update blank fragment layout -->
-    <view class="androidx.appcompat.app.AlertController$RecycleListView"
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </view>
-
-
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="1dp"
+        tools:listitem="@layout/in_demand_item" />
 </androidx.constraintlayout.widget.ConstraintLayout>

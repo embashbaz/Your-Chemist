@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/chemist_nav"
+    app:startDestination="@id/listMedecines">
+
+    <fragment
+        android:id="@+id/listMedecines"
+        android:name="com.example.yourchemist.Chemist.ListMedecines"
+        android:label="fragment_list_medecines"
+        tools:layout="@layout/fragment_list_medecines" >
+        <action
+            android:id="@+id/action_listMedecines_to_medecineDetails"
+            app:destination="@id/medecineDetails" />
+        <action
+            android:id="@+id/action_listMedecines_to_inDemandList"
+            app:destination="@id/inDemandList" />
+    </fragment>
+    <fragment
+        android:id="@+id/medecineDetails"
+        android:name="com.example.yourchemist.Chemist.MedecineDetails"
+        android:label="fragment_medecine_details"
+        tools:layout="@layout/fragment_medecine_details" />
+    <fragment
+        android:id="@+id/inDemandDetails"
+        android:name="com.example.yourchemist.Chemist.InDemandDetails"
+        android:label="fragment_in_demand_details"
+        tools:layout="@layout/fragment_in_demand_details" />
+    <fragment
+        android:id="@+id/inDemandList"
+        android:name="com.example.yourchemist.Chemist.InDemandList"
+        android:label="fragment_in_demand_list"
+        tools:layout="@layout/fragment_in_demand_list" >
+        <action
+            android:id="@+id/action_inDemandList_to_inDemandDetails"
+            app:destination="@id/inDemandDetails" />
+    </fragment>
+</navigation>

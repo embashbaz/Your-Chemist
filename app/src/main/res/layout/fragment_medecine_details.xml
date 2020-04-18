@@ -14,7 +14,7 @@
     android:layout_height="wrap_content">
 
     <EditText
-        android:id="@+id/scientific_name_txt"
+        android:id="@+id/scientific_name_et"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -27,7 +27,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/generic_name_txt"
+        android:id="@+id/generic_name_et"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -37,10 +37,10 @@
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scientific_name_txt" />
+        app:layout_constraintTop_toBottomOf="@+id/scientific_name_et" />
 
     <EditText
-        android:id="@+id/made_in_txt"
+        android:id="@+id/made_in_et"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -50,7 +50,7 @@
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/generic_name_txt" />
+        app:layout_constraintTop_toBottomOf="@+id/generic_name_et" />
 
     <Spinner
         android:id="@+id/spinner"
@@ -72,10 +72,10 @@
         android:layout_marginTop="16dp"
         android:text="@string/availability_txt"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/made_in_txt" />
+        app:layout_constraintTop_toBottomOf="@+id/made_in_et" />
 
     <EditText
-        android:id="@+id/price_txt"
+        android:id="@+id/price_et"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -87,7 +87,7 @@
         app:layout_constraintTop_toBottomOf="@+id/spinner" />
 
     <EditText
-        android:id="@+id/editText9"
+        android:id="@+id/currency_et"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -97,24 +97,34 @@
         android:hint="@string/currency"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/price_txt"
+        app:layout_constraintStart_toEndOf="@+id/price_et"
         app:layout_constraintTop_toBottomOf="@+id/spinner" />
 
     <EditText
-        android:id="@+id/drug_detail_txt"
+        android:id="@+id/drug_detail_et"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="24dp"
         android:gravity="start|top"
         android:hint="@string/more_details"
         android:inputType="textMultiLine"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/price_et" />
+
+    <Button
+        android:id="@+id/save_medecine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:layout_marginBottom="24dp"
+        android:text="SAVE"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/price_txt" />
+        app:layout_constraintTop_toBottomOf="@+id/drug_detail_et" />
 </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

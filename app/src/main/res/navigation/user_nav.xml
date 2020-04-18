@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/user_nav"
+    app:startDestination="@id/clientSearch">
+
+    <fragment
+        android:id="@+id/clientSearch"
+        android:name="com.example.yourchemist.ClientSearch"
+        android:label="fragment_client_search"
+        tools:layout="@layout/fragment_client_search" >
+        <action
+            android:id="@+id/action_clientSearch_to_clientResultList"
+            app:destination="@id/clientResultList" />
+    </fragment>
+    <fragment
+        android:id="@+id/clientSearchDetails"
+        android:name="com.example.yourchemist.ClientSearchDetails"
+        android:label="fragment_client_search_details"
+        tools:layout="@layout/fragment_client_search_details" />
+    <fragment
+        android:id="@+id/clientResultList"
+        android:name="com.example.yourchemist.ClientResultList"
+        android:label="fragment_client_result_list"
+        tools:layout="@layout/fragment_client_result_list" >
+        <action
+            android:id="@+id/action_clientResultList_to_clientSearchDetails"
+            app:destination="@id/clientSearchDetails" />
+    </fragment>
+</navigation>

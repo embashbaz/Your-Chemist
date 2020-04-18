@@ -7,7 +7,10 @@
     tools:context=".MainActivity">
 
   <fragment
+      android:id="@+id/main_fragment"
       android:layout_width="match_parent"
+      app:defaultNavHost="true"
+      app:navGraph="@navigation/user_nav"
       android:layout_height="match_parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
