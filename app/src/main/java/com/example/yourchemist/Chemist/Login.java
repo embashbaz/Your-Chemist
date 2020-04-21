@@ -6,6 +6,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,7 +36,8 @@ public class Login extends Fragment {
     private FirebaseAuth.AuthStateListener mAuthListener;
     private EditText mEmail, mPassword;
     private Button signIn;
-    private TextView ;
+    private TextView register;
+    private NavController navController;
     private  String TAG ="fragement Login";
 
     public Login() {
@@ -46,13 +49,19 @@ public class Login extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_login, container, false);
+        View view = inflater.inflate(R.layout.fragment_login, container, false);
+        mEmail = view.findViewById(R.id.email);
+        mPassword = view.findViewById(R.id.password);
+        signIn =  view.findViewById(R.id.email_sign_in_button);
+        register = view.findViewById(R.id.link_register);
+        return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setupFirebaseAuth();
+        navController = Navigation.findNavController(view);
 
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,6 +91,13 @@ public class Login extends Fragment {
             }
         });
 
+
+        register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                    navController.navigate(R.id.action_login2_to_register);
+            }
+        });
     }
 
     private void setupFirebaseAuth(){
