@@ -1,9 +1,26 @@
 package com.example.yourchemist.AdapterAndModel;
 
 public class Chemist {
-    String name, license, document, phone, email, country, town, area, adress, areaCode, details;
+
+
+    String name;
+    String license;
+    String document;
+    String phone;
+    String email;
+    String country;
+    String town;
+    String area;
+    String adress;
+    String areaCode;
+    String details;
+    String uidDb;
+
+    public Chemist(){
+
+    }
     public Chemist(String name, String license, String document, String phone, String email,
-                    String country, String town, String area, String adress, String areaCode, String details) {
+                    String country, String town, String area, String adress, String areaCode, String details, String uid) {
         this.name = name;
         this.license = license;
         this.document = document;
@@ -15,6 +32,7 @@ public class Chemist {
         this.adress = adress;
         this.areaCode = areaCode;
         this.details = details;
+        this.uidDb = uid;
     }
 
     public String getName() {
@@ -103,6 +121,10 @@ public class Chemist {
 
     public void setDetails(String details) {
         this.details = details;
+    }
+
+    public String getUidDb() {
+        return uidDb;
     }
 
 }

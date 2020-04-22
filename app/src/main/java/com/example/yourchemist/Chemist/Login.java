@@ -54,13 +54,14 @@ public class Login extends Fragment {
         mPassword = view.findViewById(R.id.password);
         signIn =  view.findViewById(R.id.email_sign_in_button);
         register = view.findViewById(R.id.link_register);
+        setupFirebaseAuth();
         return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setupFirebaseAuth();
+
         navController = Navigation.findNavController(view);
 
         signIn.setOnClickListener(new View.OnClickListener() {
@@ -75,6 +76,11 @@ public class Login extends Fragment {
                             .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
+                                    Intent intent = new Intent(getActivity(), ChemistInfo.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    intent.putExtra("sender", 4);
+                                    startActivity(intent);
+                                    getActivity().finish();
 
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
@@ -116,6 +122,7 @@ public class Login extends Fragment {
 
                     Intent intent = new Intent(getActivity(), ChemistInfo.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    intent.putExtra("sender", 4);
                     startActivity(intent);
                     getActivity().finish();
 

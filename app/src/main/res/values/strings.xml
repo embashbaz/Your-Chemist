@@ -11,4 +11,6 @@
     <string name="currency">Currency</string>
     <string name="more_details">More details about this drug</string>
     <string name="chemist">Chemist</string>
+    <string name="add_medicine_menu">add medicine</string>
+    <string name="in_demand_drug_menu">In demand drug</string>
 </resources>

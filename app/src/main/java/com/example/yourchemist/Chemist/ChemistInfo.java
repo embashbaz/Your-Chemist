@@ -80,6 +80,8 @@ public class ChemistInfo extends AppCompatActivity {
                     setData();
                 }
             });
+        }else if(uid != null && code == 4){
+            goToChemistActivity();
         }
 
 
@@ -138,7 +140,7 @@ public class ChemistInfo extends AppCompatActivity {
                 && !isEmpty(areaCode) && !isEmpty(area) && !isEmpty(adress)){
 
             Chemist mChemist = new Chemist(chemistName, license, document2,phone, email,
-                    null,town, area,adress, areaCode, shopDetails);
+                    null,town, area,adress, areaCode, shopDetails,uid);
             db.collection("pharmacies").document(uid).set(mChemist);
             goToChemistActivity();
 

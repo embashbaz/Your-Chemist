@@ -1,11 +1,22 @@
 package com.example.yourchemist.AdapterAndModel;
 
-public class Medecine {
+public class Medecine extends Chemist {
 
     String scientificName, genericName, countryMade, currency, details;
     double price;
-
-    public Medecine(String scientificName, String genericName, String countryMade, String currency, String details, double price) {
+    public Medecine(){
+        
+    }
+    public Medecine(Chemist chemist,String scientificName, String genericName, String countryMade, String currency, String details, double price) {
+        this.name = chemist.name;
+        this.phone = chemist.phone;
+        this.email = chemist.email;
+        this.country = chemist.country;
+        this.town = chemist.town;
+        this.area = chemist.area;
+        this.adress = chemist.adress;
+        this.areaCode = chemist.areaCode;
+        this.uidDb = chemist.uidDb;
         this.scientificName = scientificName;
         this.genericName = genericName;
         this.countryMade = countryMade;

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:title="@string/add_medicine_menu"
+        android:id="@+id/add_medicine_menu"
+        app:showAsAction="ifRoom"
+        />
+    <item
+        android:title="@string/in_demand_drug_menu"
+        android:id="@+id/in_demand_menu"
+        app:showAsAction="ifRoom"
+        />
+</menu>

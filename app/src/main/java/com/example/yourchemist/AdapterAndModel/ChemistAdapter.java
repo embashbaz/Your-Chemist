@@ -1,5 +1,6 @@
 package com.example.yourchemist.AdapterAndModel;
 
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -9,21 +10,39 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.yourchemist.R;
 
+import java.util.ArrayList;
+
 public class ChemistAdapter extends RecyclerView.Adapter<ChemistAdapter.MyViewHolder> {
+
+    ArrayList<Medecine> mMedecine  = new ArrayList<>();
+
+    public ChemistAdapter(ArrayList<Medecine> medecines){
+        mMedecine = medecines;
+
+    }
+
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.chemist_product_item, parent, false);
+        return new MyViewHolder(view);
+
+
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-
+                Medecine medecine = mMedecine.get(position);
+                holder.statusTxt.setText("");
+                holder.genericTxt.setText(medecine.getGenericName());
+                holder.scientificTxt.setText(medecine.getScientificName());
+                holder.priceTxt.setText(medecine.getPrice()+"");
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mMedecine.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
