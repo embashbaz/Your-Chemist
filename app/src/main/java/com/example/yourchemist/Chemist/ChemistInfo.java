@@ -1,15 +1,25 @@
 package com.example.yourchemist.Chemist;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.yourchemist.AdapterAndModel.Chemist;
 import com.example.yourchemist.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import static android.text.TextUtils.isEmpty;
 
@@ -23,16 +33,17 @@ public class ChemistInfo extends AppCompatActivity {
             adress, areaCode, shopDetails;
 
     String uid;
+    FirebaseFirestore db;
+    int code = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(FirebaseAuth.getInstance().getCurrentUser() == null){
-            Intent intent = new Intent(this, ChemistAuth.class);
-            Toast.makeText(this, "please login again", Toast.LENGTH_SHORT );
-            startActivity(intent);
-            finish();
-        }
+
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        uid = user.getUid();
+        code = getIntent().getIntExtra("sender", 1);
 
         setContentView(R.layout.activity_chemist_info);
         chemistNameEt =findViewById(R.id.name_chemist_et);
@@ -46,14 +57,68 @@ public class ChemistInfo extends AppCompatActivity {
         adressEt = findViewById(R.id.adress_et);
         shopDetailsEt = findViewById(R.id.shop_details_et);
         saveBt = findViewById(R.id.save_chemist);
+        if(uid == null || code == 1){
+            Intent intent = new Intent(this, ChemistAuth.class);
+            Toast.makeText(this, "please login again", Toast.LENGTH_SHORT ).show();
+            startActivity(intent);
+            finish();
+        }
+        else  if(uid != null && code == 2){
+            saveBt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    setData();
+                }
+            });
+        }
+        else if(uid != null && code == 3){
+            getDataFromDb();
+            saveBt.setText("Update");
+            saveBt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    setData();
+                }
+            });
+        }
 
-        uid = FirebaseAuth.getInstance().getUid();
+
+        db = FirebaseFirestore.getInstance();
 
 
 
     }
 
+    private void getDataFromDb() {
+        DocumentReference docRef = db.collection("pharmacies").document(uid);
+
+        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                Chemist mChemist = documentSnapshot.toObject(Chemist.class);
+                showData(mChemist);
+            }
+        });
+
+    }
+
+    private void showData(Chemist chemist){
+        chemistNameEt.setText(chemist.getName());
+        licenseEt.setText(chemist.getLicense());
+        document2Et.setText(chemist.getDocument());
+        phoneEt.setText(chemist.getPhone());
+        emailEt.setText(chemist.getEmail());
+        townEt.setText(chemist.getTown());
+        areaCodeEt.setText(chemist.getAreaCode());
+        areaEt.setText(chemist.getArea());
+        adressEt.setText(chemist.getAdress());
+        shopDetailsEt.setText(chemist.getDetails());
+
+    }
+
+
     private void getData(){
+            emailEt.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
             email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
             chemistName = chemistNameEt.getText().toString();
             license = licenseEt.getText().toString();
@@ -65,17 +130,17 @@ public class ChemistInfo extends AppCompatActivity {
             adress = adressEt.getText().toString();
             shopDetails = shopDetailsEt.getText().toString();
 
-
-
-
-
-
     }
 
     private void setData(){
+        getData();
         if(!isEmpty(email) && !isEmpty(chemistName) && !isEmpty(license) && !isEmpty(phone) && !isEmpty(town)
                 && !isEmpty(areaCode) && !isEmpty(area) && !isEmpty(adress)){
 
+            Chemist mChemist = new Chemist(chemistName, license, document2,phone, email,
+                    null,town, area,adress, areaCode, shopDetails);
+            db.collection("pharmacies").document(uid).set(mChemist);
+            goToChemistActivity();
 
 
         }else{
@@ -85,6 +150,10 @@ public class ChemistInfo extends AppCompatActivity {
     }
 
     private void goToChemistActivity(){
+        Intent intent = new Intent(this, ChemistActivity.class);
+        startActivity(intent);
 
     }
+
+
 }

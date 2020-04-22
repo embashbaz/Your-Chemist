@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import com.example.yourchemist.R;
+
 public class ChemistAuth extends AppCompatActivity {
 
     @Override

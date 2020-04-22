@@ -139,6 +139,7 @@ public class Register extends Fragment {
     private void setInfo(){
 
         Intent intent = new Intent(getActivity(), ChemistInfo.class);
+        intent.putExtra("sender", 2);
         startActivity(intent);
         getActivity().finish();
     }
