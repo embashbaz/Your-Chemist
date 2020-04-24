@@ -4,7 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 
 import android.util.Log;
@@ -14,11 +17,25 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.yourchemist.Chemist.ChemistAuth;
+import com.google.protobuf.Empty;
+
+import static android.text.TextUtils.isEmpty;
 
 
 public class ClientSearch extends Fragment {
+
+    EditText searchDrug, searchTown, searchArea;
+    Button search;
+
+    String drugName, townName, areaName, countryName;
+    NavController navController;
+
+
 
 
     public ClientSearch() {
@@ -38,14 +55,48 @@ public class ClientSearch extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        try {
-            return inflater.inflate(R.layout.fragment_client_search, container, false);
-        }
-        catch (Exception e){
-                Log.e("on this fragment", "on createview", e);
-                throw e;
 
+
+            View view = inflater.inflate(R.layout.fragment_client_search, container, false);
+            searchDrug = view.findViewById(R.id.medicine_search_et);
+            searchTown = view.findViewById(R.id.town_search_et);
+            searchArea = view.findViewById(R.id.area_search_et);
+            search = view.findViewById(R.id.search_button);
+
+            drugName = searchDrug.getText().toString();
+            townName = searchTown.getText().toString();
+            areaName = searchArea.getText().toString();
+
+
+            return view;
+        }
+
+
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        navController = Navigation.findNavController(view);
+
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if( !isEmpty(searchDrug.getText().toString()) && !isEmpty(searchTown.getText().toString()) && !isEmpty(searchArea.getText().toString())){
+                    Bundle bundle = new Bundle();
+                    drugName = searchDrug.getText().toString();
+                    townName = searchTown.getText().toString();
+                    areaName = searchArea.getText().toString();
+                    bundle.putString("drug", drugName);
+                    bundle.putString("town", townName);
+                    bundle.putString("area", areaName);
+                    navController.navigate(R.id.action_clientSearch_to_clientResultList, bundle);
+
+                }else {
+                    Toast.makeText(getActivity(),"please all the field", Toast.LENGTH_LONG).show();
+                }
             }
+        });
     }
 
     @Override

@@ -2,10 +2,17 @@ package com.example.yourchemist.AdapterAndModel;
 
 public class Medecine extends Chemist {
 
-    String scientificName, genericName, countryMade, currency, details;
+    String scientificName;
+    String genericName;
+    String countryMade;
+    String currency;
+    String detailsMed;
+
+
+    String medUid;
     double price;
     public Medecine(){
-        
+
     }
     public Medecine(Chemist chemist,String scientificName, String genericName, String countryMade, String currency, String details, double price) {
         this.name = chemist.name;
@@ -21,7 +28,7 @@ public class Medecine extends Chemist {
         this.genericName = genericName;
         this.countryMade = countryMade;
         this.currency = currency;
-        this.details = details;
+        this.detailsMed = details;
         this.price = price;
     }
 
@@ -57,12 +64,12 @@ public class Medecine extends Chemist {
         this.currency = currency;
     }
 
-    public String getDetails() {
-        return details;
+    public String getDetailsMed() {
+        return detailsMed;
     }
 
-    public void setDetails(String details) {
-        this.details = details;
+    public void setDetailsMed(String details) {
+        this.detailsMed = details;
     }
 
     public double getPrice() {
@@ -71,6 +78,14 @@ public class Medecine extends Chemist {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public String getMedUid() {
+        return medUid;
+    }
+
+    public void setMedUid(String medUid) {
+        this.medUid = medUid;
     }
 
 
