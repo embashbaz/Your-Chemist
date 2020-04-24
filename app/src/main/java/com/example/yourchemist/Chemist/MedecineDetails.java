@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -66,6 +67,7 @@ public class MedecineDetails extends Fragment {
         priceEt = view.findViewById(R.id.price_et);
         currencyEt = view.findViewById(R.id.currency_et);
         detailsEt = view.findViewById(R.id.drug_detail_et);
+        availabilitySp = view.findViewById(R.id.availability_spinner);
         saveBt = view.findViewById(R.id.save_medecine);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         uid = user.getUid();
@@ -112,12 +114,13 @@ public class MedecineDetails extends Fragment {
 
     private void getData(){
 
-        scientificName = scientificEt.getText().toString();
-        genericName = genericEt.getText().toString();
-        manufurerCountry = manufacturerEt.getText().toString();
-        price = Double.valueOf(priceEt.getText().toString());
-        currency = currencyEt.getText().toString();
-        detail = detailsEt.getText().toString();
+        scientificName = scientificEt.getText().toString().trim().trim().toLowerCase();
+        genericName = genericEt.getText().toString().trim().toLowerCase();
+        manufurerCountry = manufacturerEt.getText().toString().trim().toLowerCase();
+        price = Double.valueOf(priceEt.getText().toString().trim());
+        currency = currencyEt.getText().toString().trim().toLowerCase();
+        detail = detailsEt.getText().toString().trim().toLowerCase();
+        availability = availabilitySp.getSelectedItem().toString();
 
     }
 
@@ -126,10 +129,10 @@ public class MedecineDetails extends Fragment {
 
         getData();
         if(!isEmpty(scientificName) && !isEmpty(genericName) && !isEmpty(manufurerCountry) &&
-                !isEmpty(priceEt.getText().toString()) && !isEmpty(currency)){
+                !isEmpty(priceEt.getText().toString()) && !isEmpty(currency) && !isEmpty(availability)){
             //getData();
             Medecine medecine = new Medecine(mChemist, scientificName,genericName,manufurerCountry,
-                    currency, detail, price);
+                    currency, detail, price, availability);
             db.collection("Medicine").add(medecine).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                 @Override
                 public void onSuccess(DocumentReference documentReference) {

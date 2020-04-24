@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class ChemistAdapter extends RecyclerView.Adapter<ChemistAdapter.MyViewHolder> {
 
-    ArrayList<Medecine> mMedecine  = new ArrayList<>();
+    private ArrayList<Medecine> mMedecine  = new ArrayList<>();
 
     public ChemistAdapter(ArrayList<Medecine> medecines){
         mMedecine = medecines;
@@ -34,10 +34,10 @@ public class ChemistAdapter extends RecyclerView.Adapter<ChemistAdapter.MyViewHo
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
                 Medecine medecine = mMedecine.get(position);
-                holder.statusTxt.setText("");
+                holder.statusTxt.setText(medecine.getAvailability());
                 holder.genericTxt.setText(medecine.getGenericName());
                 holder.scientificTxt.setText(medecine.getScientificName());
-                holder.priceTxt.setText(medecine.getPrice()+"");
+                holder.priceTxt.setText(medecine.getPrice()+" "+medecine.getCurrency());
     }
 
     @Override

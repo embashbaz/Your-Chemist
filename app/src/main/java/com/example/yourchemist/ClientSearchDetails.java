@@ -67,8 +67,8 @@ public class ClientSearchDetails extends Fragment {
                 scientificTxt.setText(med.getScientificName());
                 genericTxt.setText(med.getGenericName());
                 manufacturerTxt.setText(med.getCountryMade());
-                priceTxt.setText(med.getPrice()+"");
-                availabilityTxt.setText("");
+                priceTxt.setText(med.getPrice()+" "+med.getCurrency());
+                availabilityTxt.setText(med.getAvailability());
                 detailsTxt.setText(med.getDetailsMed());
 
             }

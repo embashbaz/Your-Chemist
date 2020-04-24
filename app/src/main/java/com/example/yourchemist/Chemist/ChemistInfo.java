@@ -6,11 +6,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.yourchemist.AdapterAndModel.Chemist;
+import com.example.yourchemist.AdapterAndModel.SpinnerValue;
 import com.example.yourchemist.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -27,9 +30,10 @@ public class ChemistInfo extends AppCompatActivity {
 
     EditText chemistNameEt, licenseEt, document2Et, phoneEt, emailEt, townEt, areaEt,
               adressEt, areaCodeEt, shopDetailsEt;
+    Spinner countrySpinner;
     Button saveBt;
 
-    String chemistName, license, document2, phone, email, town, area,
+    String chemistName, license, document2, phone, email, town, area,country,
             adress, areaCode, shopDetails;
 
     String uid;
@@ -56,6 +60,7 @@ public class ChemistInfo extends AppCompatActivity {
         areaEt = findViewById(R.id.area_et);
         adressEt = findViewById(R.id.adress_et);
         shopDetailsEt = findViewById(R.id.shop_details_et);
+        countrySpinner = findViewById(R.id.country_spinner);
         saveBt = findViewById(R.id.save_chemist);
         if(uid == null || code == 1){
             Intent intent = new Intent(this, ChemistAuth.class);
@@ -86,6 +91,14 @@ public class ChemistInfo extends AppCompatActivity {
 
 
         db = FirebaseFirestore.getInstance();
+        SpinnerValue values = new SpinnerValue();
+
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                this, android.R.layout.simple_spinner_item, values.spinnerArray);
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        countrySpinner.setAdapter(adapter);
 
 
 
@@ -122,32 +135,33 @@ public class ChemistInfo extends AppCompatActivity {
     private void getData(){
             emailEt.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
             email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-            chemistName = chemistNameEt.getText().toString();
+            chemistName = chemistNameEt.getText().toString().trim().toLowerCase();
             license = licenseEt.getText().toString();
             document2 = document2Et.getText().toString();
             phone = phoneEt.getText().toString();
-            town = townEt.getText().toString();
+            town = townEt.getText().toString().trim().toLowerCase();
             areaCode = areaCodeEt.getText().toString();
             area = areaEt.getText().toString();
             adress = adressEt.getText().toString();
             shopDetails = shopDetailsEt.getText().toString();
+            country = countrySpinner.getSelectedItem().toString();
 
     }
 
     private void setData(){
         getData();
         if(!isEmpty(email) && !isEmpty(chemistName) && !isEmpty(license) && !isEmpty(phone) && !isEmpty(town)
-                && !isEmpty(areaCode) && !isEmpty(area) && !isEmpty(adress)){
+                && !isEmpty(areaCode) && !isEmpty(area) && !isEmpty(adress) && !isEmpty(country)){
 
             Chemist mChemist = new Chemist(chemistName, license, document2,phone, email,
-                    null,town, area,adress, areaCode, shopDetails,uid);
+                    country,town, area,adress, areaCode, shopDetails,uid);
             db.collection("pharmacies").document(uid).set(mChemist);
             goToChemistActivity();
 
 
         }else{
             Toast.makeText(this, "Please make sure you fill all the field" +
-                    "2nd document and more details field are optional", Toast.LENGTH_LONG);
+                    "2nd document and more details field are optional", Toast.LENGTH_LONG).show();
         }
     }
 

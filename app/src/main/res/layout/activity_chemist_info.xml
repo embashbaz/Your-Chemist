@@ -92,7 +92,7 @@
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spinner2" />
+            app:layout_constraintTop_toBottomOf="@+id/country_spinner" />
 
         <EditText
             android:id="@+id/area_et"
@@ -108,7 +108,7 @@
             app:layout_constraintTop_toBottomOf="@+id/town_et" />
 
         <Spinner
-            android:id="@+id/spinner2"
+            android:id="@+id/country_spinner"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"

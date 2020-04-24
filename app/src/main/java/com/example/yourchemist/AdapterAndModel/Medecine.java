@@ -9,12 +9,16 @@ public class Medecine extends Chemist {
     String detailsMed;
 
 
+
+    String availability;
+
+
     String medUid;
     double price;
     public Medecine(){
 
     }
-    public Medecine(Chemist chemist,String scientificName, String genericName, String countryMade, String currency, String details, double price) {
+    public Medecine(Chemist chemist,String scientificName, String genericName, String countryMade, String currency, String details, double price, String availability) {
         this.name = chemist.name;
         this.phone = chemist.phone;
         this.email = chemist.email;
@@ -30,6 +34,7 @@ public class Medecine extends Chemist {
         this.currency = currency;
         this.detailsMed = details;
         this.price = price;
+        this.availability = availability;
     }
 
     public String getScientificName() {
@@ -86,6 +91,13 @@ public class Medecine extends Chemist {
 
     public void setMedUid(String medUid) {
         this.medUid = medUid;
+    }
+    public String getAvailability() {
+        return availability;
+    }
+
+    public void setAvailability(String availability) {
+        this.availability = availability;
     }
 
 

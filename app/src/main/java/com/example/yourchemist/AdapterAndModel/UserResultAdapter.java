@@ -34,9 +34,9 @@ public class UserResultAdapter extends RecyclerView.Adapter<UserResultAdapter.My
     @Override
     public void onBindViewHolder(@NonNull UserResultAdapter.MyViewModel holder, int position) {
         Medecine medecine = mMedecine.get(position);
-        holder.phoneTxt.setText(medecine.getPhone());
-        holder.adressTxt.setText(medecine.getAdress());
-        holder.statusTxt.setText("");
+        holder.phoneTxt.setText(medecine.getPhone()+medecine.getCurrency());
+        holder.adressTxt.setText(medecine.getTown()+", "+medecine.getArea()+", "+medecine.getAdress());
+        holder.statusTxt.setText(medecine.getCurrency());
         holder.drugTxt.setText(medecine.getScientificName());
         holder.chemistTxt.setText(medecine.getName());
     }

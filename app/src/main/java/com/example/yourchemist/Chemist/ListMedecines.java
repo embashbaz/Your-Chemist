@@ -125,4 +125,6 @@ public class ListMedecines extends Fragment {
                 });
 
     }
+
+
 }
