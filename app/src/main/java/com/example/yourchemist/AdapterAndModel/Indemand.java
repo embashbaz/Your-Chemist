@@ -1,5 +1,7 @@
 package com.example.yourchemist.AdapterAndModel;
 
+import java.util.List;
+
 public class Indemand {
 
     public Indemand(){}
@@ -7,8 +9,15 @@ public class Indemand {
     String drugName;
     String townName;
     String countryName;
+    List<String> userId;
 
+    public List<String> getUserId() {
+        return userId;
+    }
 
+    public void setUserId(List<String> userId) {
+        this.userId = userId;
+    }
 
     String docId;
     int numberRequest;
@@ -53,10 +62,11 @@ public class Indemand {
         this.docId = docId;
     }
 
-    public Indemand(String drugName, String townName, String countryName, int numberRequest) {
+    public Indemand(String drugName, String townName, String countryName, int numberRequest, List<String> userId) {
         this.drugName = drugName;
         this.townName = townName;
         this.countryName = countryName;
         this.numberRequest = numberRequest;
+        this.userId = userId;
     }
 }

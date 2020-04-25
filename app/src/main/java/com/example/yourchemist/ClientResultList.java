@@ -1,13 +1,20 @@
 package com.example.yourchemist;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.provider.Settings;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,12 +33,16 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 
 /**
@@ -61,7 +72,7 @@ public class ClientResultList extends Fragment {
             drugName = bundle.getString("drug", "");
             townName = bundle.getString("town", "");
             areaName = bundle.getString("area", "");
-            countryName = bundle.getString("country","");
+            countryName = bundle.getString("country", "");
         }
         View view = inflater.inflate(R.layout.fragment_client_result_list, container, false);
         recyclerView = view.findViewById(R.id.client_result_list);
@@ -85,7 +96,7 @@ public class ClientResultList extends Fragment {
         getData();
     }
 
-    public void getData(){
+    public void getData() {
 
         Task task1 = db.collection("Medicine")
                 .whereEqualTo("scientificName", drugName)
@@ -102,20 +113,20 @@ public class ClientResultList extends Fragment {
         allData.addOnCompleteListener(new OnCompleteListener<List<QuerySnapshot>>() {
             @Override
             public void onComplete(@NonNull Task<List<QuerySnapshot>> task) {
-                if(task.isSuccessful()){
+                if (task.isSuccessful()) {
                     medecinesList.clear();
-                    for(QuerySnapshot query : task.getResult()){
-                        for (QueryDocumentSnapshot document: query){
+                    for (QuerySnapshot query : task.getResult()) {
+                        for (QueryDocumentSnapshot document : query) {
                             Medecine medecine = document.toObject(Medecine.class);
                             medecine.setMedUid(document.getId());
                             Log.d("this ", document.getId() + " => " + document.getData());
                             medecinesList.add(medecine);
                         }
                     }
-                    if(medecinesList.size() == 0){
+                    if (medecinesList.size() == 0) {
                         noResult.setVisibility(View.VISIBLE);
                         recyclerView.setVisibility(View.INVISIBLE);
-                    }else {
+                    } else {
                         userResultAdapter = new UserResultAdapter(medecinesList);
                         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                         recyclerView.setHasFixedSize(true);
@@ -127,8 +138,11 @@ public class ClientResultList extends Fragment {
 
 
     }
+
     private void addDataToInDemand() {
 
+         @SuppressLint("HardwareIds") final String android_id = Settings.Secure.getString(getContext().getContentResolver(),
+                Settings.Secure.ANDROID_ID);
 
         db.collection("inDemand")
                 .whereEqualTo("drugName", drugName)
@@ -147,16 +161,22 @@ public class ClientResultList extends Fragment {
                                 // Log.d(TAG, document.getId() + " => " + document.getData());
                             }
                             if(indemand == null){
-                                indemand = new Indemand(drugName,townName,countryName, 1);
+                                indemand = new Indemand(drugName,townName,countryName, 1, Arrays.asList(android_id));
                                 db.collection("inDemand").add(indemand);
                             }else {
-                                db.collection("inDemand").document(indemand.getDocId())
-                                        .update(
-                                                "numberRequest", indemand.getNumberRequest()+1
-                                        );
+                                if(indemand.getUserId().contains(android_id)){
+                                    Toast.makeText(getContext(), "your request had already been recorded", Toast.LENGTH_SHORT).show();
+
+                                }else {
+                                    db.collection("inDemand").document(indemand.getDocId())
+                                            .update(
+                                                    "numberRequest", indemand.getNumberRequest() + 1,
+                                                          "userId", FieldValue.arrayUnion(android_id)
+                                            );
+                                }
                             }
                         }else{
-                            indemand = new Indemand(drugName,townName,countryName, 1);
+                            indemand = new Indemand(drugName,townName,countryName, 1, Arrays.asList(android_id));
                             db.collection("inDemand").add(indemand);
                         }
                     }
