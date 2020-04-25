@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.yourchemist.AdapterAndModel.ChemistAdapter;
+import com.example.yourchemist.AdapterAndModel.Indemand;
 import com.example.yourchemist.AdapterAndModel.Medecine;
 import com.example.yourchemist.AdapterAndModel.UserResultAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -23,6 +24,8 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -58,6 +61,7 @@ public class ClientResultList extends Fragment {
             drugName = bundle.getString("drug", "");
             townName = bundle.getString("town", "");
             areaName = bundle.getString("area", "");
+            countryName = bundle.getString("country","");
         }
         View view = inflater.inflate(R.layout.fragment_client_result_list, container, false);
         recyclerView = view.findViewById(R.id.client_result_list);
@@ -71,6 +75,13 @@ public class ClientResultList extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         db = FirebaseFirestore.getInstance();
+        noResult.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addDataToInDemand();
+            }
+
+        });
         getData();
     }
 
@@ -78,10 +89,12 @@ public class ClientResultList extends Fragment {
 
         Task task1 = db.collection("Medicine")
                 .whereEqualTo("scientificName", drugName)
+                .whereEqualTo("country", countryName)
                 .whereEqualTo("town", townName)
                 .get();
         Task task2 = db.collection("Medicine")
                 .whereEqualTo("genericName", drugName)
+                .whereEqualTo("country", countryName)
                 .whereEqualTo("town", townName)
                 .get();
 
@@ -113,5 +126,40 @@ public class ClientResultList extends Fragment {
         });
 
 
+    }
+    private void addDataToInDemand() {
+
+
+        db.collection("inDemand")
+                .whereEqualTo("drugName", drugName)
+                .whereEqualTo("countryName", countryName)
+                .whereEqualTo("townName", townName)
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        Indemand indemand=null;
+
+                        if(task.isSuccessful()){
+
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                indemand = document.toObject(Indemand.class);
+                                indemand.setDocId(document.getId());
+                                // Log.d(TAG, document.getId() + " => " + document.getData());
+                            }
+                            if(indemand == null){
+                                indemand = new Indemand(drugName,townName,countryName, 1);
+                                db.collection("inDemand").add(indemand);
+                            }else {
+                                db.collection("inDemand").document(indemand.getDocId())
+                                        .update(
+                                                "numberRequest", indemand.getNumberRequest()+1
+                                        );
+                            }
+                        }else{
+                            indemand = new Indemand(drugName,townName,countryName, 1);
+                            db.collection("inDemand").add(indemand);
+                        }
+                    }
+                });
     }
 }

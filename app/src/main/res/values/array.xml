@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="availability_array">
+    <item> </item>
+    <item>Available now</item>
+    <item>Will be available in days</item>
+    <item>Will be available in weeks</item>
+        <item>Out of stock</item>
+    </string-array>
+</resources>

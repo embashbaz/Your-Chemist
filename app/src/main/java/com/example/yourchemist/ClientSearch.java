@@ -17,10 +17,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.yourchemist.AdapterAndModel.SpinnerValue;
 import com.example.yourchemist.Chemist.ChemistAuth;
 import com.google.protobuf.Empty;
 
@@ -31,6 +34,7 @@ public class ClientSearch extends Fragment {
 
     EditText searchDrug, searchTown, searchArea;
     Button search;
+    Spinner country;
 
     String drugName, townName, areaName, countryName;
     NavController navController;
@@ -62,10 +66,20 @@ public class ClientSearch extends Fragment {
             searchTown = view.findViewById(R.id.town_search_et);
             searchArea = view.findViewById(R.id.area_search_et);
             search = view.findViewById(R.id.search_button);
+            country = view.findViewById(R.id.client_search_spinner);
+            SpinnerValue values = new SpinnerValue();
+
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                getContext(), android.R.layout.simple_spinner_item, values.spinnerArray);
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        country.setAdapter(adapter);
 
             drugName = searchDrug.getText().toString();
             townName = searchTown.getText().toString();
             areaName = searchArea.getText().toString();
+
 
 
             return view;
@@ -82,14 +96,17 @@ public class ClientSearch extends Fragment {
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if( !isEmpty(searchDrug.getText().toString()) && !isEmpty(searchTown.getText().toString()) && !isEmpty(searchArea.getText().toString())){
+                if( !isEmpty(searchDrug.getText().toString()) && !isEmpty(searchTown.getText().toString())
+                        && !isEmpty(searchArea.getText().toString()) && !isEmpty(country.getSelectedItem().toString())){
                     Bundle bundle = new Bundle();
                     drugName = searchDrug.getText().toString();
                     townName = searchTown.getText().toString();
                     areaName = searchArea.getText().toString();
+                    countryName = country.getSelectedItem().toString();
                     bundle.putString("drug", drugName);
                     bundle.putString("town", townName);
                     bundle.putString("area", areaName);
+                    bundle.putString("country", countryName);
                     navController.navigate(R.id.action_clientSearch_to_clientResultList, bundle);
 
                 }else {
