@@ -1,5 +1,6 @@
 package com.example.yourchemist.Chemist;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,6 +24,8 @@ import android.widget.TextView;
 import com.example.yourchemist.AdapterAndModel.Chemist;
 import com.example.yourchemist.AdapterAndModel.ChemistAdapter;
 import com.example.yourchemist.AdapterAndModel.Medecine;
+import com.example.yourchemist.ClientSearch;
+import com.example.yourchemist.MainActivity;
 import com.example.yourchemist.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -105,6 +109,7 @@ public class ListMedecines extends Fragment {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
+                            medecineList.clear();
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 medecineList.add(document.toObject(Medecine.class));
                                // Log.d(TAG, document.getId() + " => " + document.getData());
@@ -126,5 +131,27 @@ public class ListMedecines extends Fragment {
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(getView() == null){
+            return;
+        }
 
+        getView().setFocusableInTouchMode(true);
+        getView().requestFocus();
+        getView().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+
+                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK){
+                    Intent intent = new Intent(getActivity(), MainActivity.class);
+                    startActivity(intent);
+
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
 }

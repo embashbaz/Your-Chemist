@@ -71,7 +71,7 @@ public class ClientResultList extends Fragment {
         if (bundle != null) {
             drugName = bundle.getString("drug", "");
             townName = bundle.getString("town", "");
-            areaName = bundle.getString("area", "");
+            //areaName = bundle.getString("area", "");
             countryName = bundle.getString("country", "");
         }
         View view = inflater.inflate(R.layout.fragment_client_result_list, container, false);
@@ -163,9 +163,10 @@ public class ClientResultList extends Fragment {
                             if(indemand == null){
                                 indemand = new Indemand(drugName,townName,countryName, 1, Arrays.asList(android_id));
                                 db.collection("inDemand").add(indemand);
+                                Toast.makeText(getContext(), "Your request has been recorded", Toast.LENGTH_SHORT).show();
                             }else {
                                 if(indemand.getUserId().contains(android_id)){
-                                    Toast.makeText(getContext(), "your request had already been recorded", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getContext(), "Your request had already been recorded", Toast.LENGTH_SHORT).show();
 
                                 }else {
                                     db.collection("inDemand").document(indemand.getDocId())
@@ -173,11 +174,13 @@ public class ClientResultList extends Fragment {
                                                     "numberRequest", indemand.getNumberRequest() + 1,
                                                           "userId", FieldValue.arrayUnion(android_id)
                                             );
+                                    Toast.makeText(getContext(), "Your request has been recorded", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         }else{
                             indemand = new Indemand(drugName,townName,countryName, 1, Arrays.asList(android_id));
                             db.collection("inDemand").add(indemand);
+
                         }
                     }
                 });

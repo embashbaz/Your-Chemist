@@ -64,7 +64,7 @@ public class ClientSearch extends Fragment {
             View view = inflater.inflate(R.layout.fragment_client_search, container, false);
             searchDrug = view.findViewById(R.id.medicine_search_et);
             searchTown = view.findViewById(R.id.town_search_et);
-            searchArea = view.findViewById(R.id.area_search_et);
+            //searchArea = view.findViewById(R.id.area_search_et);
             search = view.findViewById(R.id.search_button);
             country = view.findViewById(R.id.client_search_spinner);
             SpinnerValue values = new SpinnerValue();
@@ -76,13 +76,7 @@ public class ClientSearch extends Fragment {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         country.setAdapter(adapter);
 
-            drugName = searchDrug.getText().toString();
-            townName = searchTown.getText().toString();
-            areaName = searchArea.getText().toString();
-
-
-
-            return view;
+        return view;
         }
 
 
@@ -97,15 +91,14 @@ public class ClientSearch extends Fragment {
             @Override
             public void onClick(View view) {
                 if( !isEmpty(searchDrug.getText().toString()) && !isEmpty(searchTown.getText().toString())
-                        && !isEmpty(searchArea.getText().toString()) && !isEmpty(country.getSelectedItem().toString())){
+                         && !isEmpty(country.getSelectedItem().toString())){
                     Bundle bundle = new Bundle();
                     drugName = searchDrug.getText().toString();
                     townName = searchTown.getText().toString();
-                    areaName = searchArea.getText().toString();
+//                    areaName = searchArea.getText().toString();
                     countryName = country.getSelectedItem().toString();
                     bundle.putString("drug", drugName);
                     bundle.putString("town", townName);
-                    bundle.putString("area", areaName);
                     bundle.putString("country", countryName);
                     navController.navigate(R.id.action_clientSearch_to_clientResultList, bundle);
 

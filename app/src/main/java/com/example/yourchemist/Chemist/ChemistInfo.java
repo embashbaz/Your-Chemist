@@ -87,6 +87,7 @@ public class ChemistInfo extends AppCompatActivity {
             });
         }else if(uid != null && code == 4){
             goToChemistActivity();
+
         }
 
 
@@ -168,6 +169,7 @@ public class ChemistInfo extends AppCompatActivity {
     private void goToChemistActivity(){
         Intent intent = new Intent(this, ChemistActivity.class);
         startActivity(intent);
+        finish();
 
     }
 
