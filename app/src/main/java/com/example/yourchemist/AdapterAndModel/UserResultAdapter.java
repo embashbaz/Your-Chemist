@@ -34,11 +34,12 @@ public class UserResultAdapter extends RecyclerView.Adapter<UserResultAdapter.My
     @Override
     public void onBindViewHolder(@NonNull UserResultAdapter.MyViewModel holder, int position) {
         Medecine medecine = mMedecine.get(position);
-        holder.phoneTxt.setText(medecine.getPhone()+medecine.getCurrency());
+        holder.phoneTxt.setText(medecine.getPhone());
         holder.adressTxt.setText(medecine.getTown()+", "+medecine.getArea()+", "+medecine.getAdress());
-        holder.statusTxt.setText(medecine.getCurrency());
+        holder.statusTxt.setText(medecine.getAvailability());
         holder.drugTxt.setText(medecine.getScientificName());
         holder.chemistTxt.setText(medecine.getName());
+        holder.priceTxt.setText(medecine.getPrice()+medecine.getCurrency());
     }
 
     @Override
@@ -48,7 +49,7 @@ public class UserResultAdapter extends RecyclerView.Adapter<UserResultAdapter.My
 
     public class MyViewModel extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        TextView chemistTxt, drugTxt, statusTxt, adressTxt, phoneTxt;
+        TextView chemistTxt, drugTxt, statusTxt, adressTxt, phoneTxt,priceTxt;
         public MyViewModel(@NonNull View itemView) {
             super(itemView);
             chemistTxt = itemView.findViewById(R.id.chemist_item_user);
@@ -56,6 +57,7 @@ public class UserResultAdapter extends RecyclerView.Adapter<UserResultAdapter.My
             statusTxt = itemView.findViewById(R.id.status_item_user);
             adressTxt = itemView.findViewById(R.id.adress_item_user);
             phoneTxt = itemView.findViewById(R.id.phone_txt_item);
+            priceTxt = itemView.findViewById(R.id.price_txt_item_user);
             itemView.setOnClickListener(this);
         }
 

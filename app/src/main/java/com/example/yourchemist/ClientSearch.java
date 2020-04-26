@@ -93,8 +93,8 @@ public class ClientSearch extends Fragment {
                 if( !isEmpty(searchDrug.getText().toString()) && !isEmpty(searchTown.getText().toString())
                          && !isEmpty(country.getSelectedItem().toString())){
                     Bundle bundle = new Bundle();
-                    drugName = searchDrug.getText().toString();
-                    townName = searchTown.getText().toString();
+                    drugName = searchDrug.getText().toString().trim().toLowerCase();
+                    townName = searchTown.getText().toString().trim().toLowerCase();
 //                    areaName = searchArea.getText().toString();
                     countryName = country.getSelectedItem().toString();
                     bundle.putString("drug", drugName);

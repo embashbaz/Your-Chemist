@@ -1,11 +1,14 @@
 package com.example.yourchemist.AdapterAndModel;
 
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.yourchemist.R;
@@ -15,6 +18,7 @@ import java.util.ArrayList;
 public class ChemistAdapter extends RecyclerView.Adapter<ChemistAdapter.MyViewHolder> {
 
     private ArrayList<Medecine> mMedecine  = new ArrayList<>();
+    NavController navController;
 
     public ChemistAdapter(ArrayList<Medecine> medecines){
         mMedecine = medecines;
@@ -45,7 +49,7 @@ public class ChemistAdapter extends RecyclerView.Adapter<ChemistAdapter.MyViewHo
         return mMedecine.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         TextView scientificTxt, genericTxt, statusTxt, priceTxt;
         public MyViewHolder(@NonNull View itemView) {
@@ -55,6 +59,27 @@ public class ChemistAdapter extends RecyclerView.Adapter<ChemistAdapter.MyViewHo
             genericTxt = itemView.findViewById(R.id.generic_name_item_chemist);
             statusTxt = itemView.findViewById(R.id.availability_item_chemist);
             priceTxt = itemView.findViewById(R.id.price_item_chemist);
+
+            itemView.setOnClickListener(this);
+
+        }
+
+        @Override
+        public void onClick(View view) {
+            int position = getAdapterPosition();
+            Medecine med = mMedecine.get(position);
+            Bundle bundle = new Bundle();
+            bundle.putString("id", med.getMedUid());
+            bundle.putString("sName", med.getScientificName());
+            bundle.putString("gName", med.getGenericName());
+            bundle.putString("countryMade", med.getCountryMade());
+            bundle.putString("currency", med.getCurrency());
+            bundle.putString("detailMed", med.getDetailsMed());
+            bundle.putString("availability", med.getAvailability());
+            bundle.putDouble("price", med.getPrice());
+
+            navController = Navigation.findNavController(view);
+            navController.navigate(R.id.action_listMedecines_to_medecineDetails, bundle);
 
         }
     }

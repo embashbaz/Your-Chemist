@@ -111,7 +111,9 @@ public class ListMedecines extends Fragment {
                         if (task.isSuccessful()) {
                             medecineList.clear();
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                medecineList.add(document.toObject(Medecine.class));
+                                Medecine med = document.toObject(Medecine.class);
+                                med.setMedUid(document.getId());
+                                medecineList.add(med);
                                // Log.d(TAG, document.getId() + " => " + document.getData());
                             }
                             if(medecineList.size() == 0){

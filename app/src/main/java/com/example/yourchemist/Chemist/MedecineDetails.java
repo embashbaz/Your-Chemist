@@ -43,6 +43,7 @@ public class MedecineDetails extends Fragment {
     private String uid;
     private FirebaseFirestore db;
     private String TAG = "medecine details";
+    private Bundle bundle;
 
 
     public MedecineDetails() {
@@ -80,15 +81,28 @@ public class MedecineDetails extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        saveBt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getChemistInfo();
-            }
-        });
+        bundle = this.getArguments();
+        if(bundle == null){
+            saveBt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    getChemistInfo();
+                }
+            });
+        }else {
+            setDataView();
+            saveBt.setText("Update");
+            saveBt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    UpdateMedicine();
+                }
+            });
+
+        }
+
+
     }
-
-
 
 
     private void getChemistInfo() {
@@ -98,7 +112,7 @@ public class MedecineDetails extends Fragment {
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 Chemist mChemist = documentSnapshot.toObject(Chemist.class);
                 myChemistInfo(mChemist);
-                setData();
+                setDataDb();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -125,11 +139,12 @@ public class MedecineDetails extends Fragment {
     }
 
 
-    private void setData(){
+    private void setDataDb(){
 
         getData();
-        if(!isEmpty(scientificName) && !isEmpty(genericName) && !isEmpty(manufurerCountry) &&
-                !isEmpty(priceEt.getText().toString()) && !isEmpty(currency) && !isEmpty(availability)){
+        if((!isEmpty(scientificName) || !isEmpty(genericName)) && !isEmpty(manufurerCountry) &&
+                !isEmpty(priceEt.getText().toString()) && !isEmpty(currency) && !isEmpty(availability)
+        && !scientificName.equals(genericName)){
             //getData();
             Medecine medecine = new Medecine(mChemist, scientificName,genericName,manufurerCountry,
                     currency, detail, price, availability);
@@ -160,5 +175,38 @@ public class MedecineDetails extends Fragment {
         currencyEt.setText("");
         detailsEt.setText("");
     }
+    private void setDataView() {
+        scientificEt.setText(bundle.getString("sName", ""));
+        genericEt.setText(bundle.getString("gName"));
+        manufacturerEt.setText(bundle.getString("countryMade"));
+        priceEt.setText(bundle.getDouble("price")+"");
+        currencyEt.setText(bundle.getString("currency"));
+        detailsEt.setText(bundle.getString("detailMed"));
+
+
+    }
+    private void UpdateMedicine() {
+        getData();
+        String medId = bundle.getString("id");
+        if((!isEmpty(scientificName) || !isEmpty(genericName)) && !isEmpty(manufurerCountry) &&
+                !isEmpty(priceEt.getText().toString()) && !isEmpty(currency) && !isEmpty(availability)
+        && !scientificName.equals(genericName)) {
+            db.collection("Medicine").document(medId)
+                    .update(
+                            "countryMade", manufurerCountry,
+                            "currency",currency,
+                            "detailsMed",detail,
+                            "genericName", genericName,
+                            "price", price,
+                            "scientificName", scientificName,
+                            "availability", availability
+
+                            );
+            Toast.makeText(getContext(), "Medicine Updated", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+
 
 }
