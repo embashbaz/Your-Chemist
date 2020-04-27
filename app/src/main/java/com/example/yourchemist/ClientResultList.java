@@ -66,6 +66,7 @@ public class ClientResultList extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        ((MainActivity)getActivity()).setActionBarTitle("Drug List");
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {

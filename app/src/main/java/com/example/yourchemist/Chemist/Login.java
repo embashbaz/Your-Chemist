@@ -48,6 +48,7 @@ public class Login extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        ((ChemistAuth)getActivity()).setActionBarTitle("Login");
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         mEmail = view.findViewById(R.id.email);

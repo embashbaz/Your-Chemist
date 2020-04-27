@@ -52,7 +52,7 @@ public class ClientSearch extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        getActivity().getActionBar().setTitle("Your Chemist search");
+        ((MainActivity)getActivity()).setActionBarTitle("Search Drug");
 
     }
 

@@ -42,6 +42,7 @@ public class Register extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        ((ChemistAuth)getActivity()).setActionBarTitle("Register");
         View view = inflater.inflate(R.layout.fragment_register, container, false);
         mEmail =  view.findViewById(R.id.input_email);
         mPassword =  view.findViewById(R.id.input_password);

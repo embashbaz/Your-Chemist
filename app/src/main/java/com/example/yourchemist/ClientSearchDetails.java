@@ -39,7 +39,7 @@ public class ClientSearchDetails extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        getActivity().getActionBar().setTitle("Medicine detail");
+        ((MainActivity)getActivity()).setActionBarTitle("Medicine detail");
         View view = inflater.inflate(R.layout.fragment_client_search_details, container, false);
 
         Bundle bundle = this.getArguments();

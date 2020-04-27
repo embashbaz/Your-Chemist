@@ -60,6 +60,7 @@ public class ListMedecines extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        ((ChemistActivity)getActivity()).setActionBarTitle("List Medicine");
         // Inflate the layout for this fragment
         setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.fragment_list_medecines, container, false);

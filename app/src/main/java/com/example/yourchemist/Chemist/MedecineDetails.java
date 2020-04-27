@@ -61,6 +61,7 @@ public class MedecineDetails extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        ((ChemistActivity)getActivity()).setActionBarTitle("Medicine Detail");
         View view = inflater.inflate(R.layout.fragment_medecine_details, container, false);
         scientificEt = view.findViewById(R.id.scientific_name_et);
         genericEt = view.findViewById(R.id.generic_name_et);

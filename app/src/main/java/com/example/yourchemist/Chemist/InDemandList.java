@@ -31,6 +31,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -53,6 +54,7 @@ public class InDemandList extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        Objects.requireNonNull((ChemistActivity)getActivity()).setActionBarTitle("In demand drug");
 
         View view = inflater.inflate(R.layout.fragment_in_demand_list, container, false);
         noData = view.findViewById(R.id.no_data_in_demand);
