@@ -17,8 +17,8 @@ import java.util.ArrayList;
 
 public class ChemistAdapter extends RecyclerView.Adapter<ChemistAdapter.MyViewHolder> {
 
-    private ArrayList<Medecine> mMedecine  = new ArrayList<>();
-    NavController navController;
+    private ArrayList<Medecine> mMedecine;
+    private NavController navController;
 
     public ChemistAdapter(ArrayList<Medecine> medecines){
         mMedecine = medecines;

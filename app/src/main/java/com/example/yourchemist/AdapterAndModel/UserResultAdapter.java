@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 public class UserResultAdapter extends RecyclerView.Adapter<UserResultAdapter.MyViewModel> {
 
-    private ArrayList<Medecine> mMedecine  = new ArrayList<>();
+    private ArrayList<Medecine> mMedecine;
     private NavController navController;
     public UserResultAdapter(ArrayList<Medecine> medecine){
         mMedecine = medecine;

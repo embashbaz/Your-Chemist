@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.yourchemist.AdapterAndModel.Chemist;
 import com.example.yourchemist.AdapterAndModel.ChemistAdapter;
@@ -44,7 +45,6 @@ public class ListMedecines extends Fragment {
 
     private NavController navController;
     private ArrayList<Medecine> medecineList = new ArrayList<>();
-   // private Chemist mChemist;
     private String uid;
     private FirebaseFirestore db;
     private String TAG = "ListMedicine fragment";
@@ -114,7 +114,6 @@ public class ListMedecines extends Fragment {
                                 Medecine med = document.toObject(Medecine.class);
                                 med.setMedUid(document.getId());
                                 medecineList.add(med);
-                               // Log.d(TAG, document.getId() + " => " + document.getData());
                             }
                             if(medecineList.size() == 0){
                                 noData.setVisibility(View.VISIBLE);
@@ -126,6 +125,8 @@ public class ListMedecines extends Fragment {
                                 recyclerView.setAdapter(chemistAdapter);
                             }
                         } else {
+                            Toast.makeText(getContext(), "Something went wrong, try again later, or check " +
+                                    "your internet connection ", Toast.LENGTH_LONG).show();
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
                     }

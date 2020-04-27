@@ -4,11 +4,11 @@
     <item
         android:title="@string/add_medicine_menu"
         android:id="@+id/add_medicine_menu"
-        app:showAsAction="ifRoom"
+        app:showAsAction="never"
         />
     <item
         android:title="@string/in_demand_drug_menu"
         android:id="@+id/in_demand_menu"
-        app:showAsAction="ifRoom"
+        app:showAsAction="never"
         />
 </menu>

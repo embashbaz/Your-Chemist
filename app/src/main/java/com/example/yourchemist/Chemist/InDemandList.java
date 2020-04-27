@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.yourchemist.AdapterAndModel.Chemist;
 import com.example.yourchemist.AdapterAndModel.InDemandAdapter;
@@ -37,7 +38,6 @@ import java.util.ArrayList;
 public class InDemandList extends Fragment {
 
     private ArrayList<Indemand> inDemandList = new ArrayList<>();
-    // private Chemist mChemist;
     private FirebaseFirestore db;
     private RecyclerView recyclerView;
     private TextView noData;
@@ -58,6 +58,7 @@ public class InDemandList extends Fragment {
         noData = view.findViewById(R.id.no_data_in_demand);
         recyclerView = view.findViewById(R.id.in_demand_recycler);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        assert user != null;
         uid = user.getUid();
 
         return view;
@@ -81,7 +82,8 @@ public class InDemandList extends Fragment {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-
+                Toast.makeText(getContext(), "Something went wrong, try again later, or check " +
+                        "your internet connection ", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -107,6 +109,9 @@ public class InDemandList extends Fragment {
                         recyclerView.setHasFixedSize(true);
                         recyclerView.setAdapter(inDemandAdapter);
                     }
+                }else {
+                    Toast.makeText(getContext(), "Something went wrong, try again later, or check " +
+                            "your internet connection ", Toast.LENGTH_LONG).show();
                 }
             }
         });

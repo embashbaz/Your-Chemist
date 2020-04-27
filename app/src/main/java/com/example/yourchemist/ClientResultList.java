@@ -133,6 +133,10 @@ public class ClientResultList extends Fragment {
                         recyclerView.setAdapter(userResultAdapter);
                     }
                 }
+                else {
+                    Toast.makeText(getContext(), "Something went wrong, try again later, or check " +
+                            "your internet connection ", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -178,8 +182,8 @@ public class ClientResultList extends Fragment {
                                 }
                             }
                         }else{
-                            indemand = new Indemand(drugName,townName,countryName, 1, Arrays.asList(android_id));
-                            db.collection("inDemand").add(indemand);
+                            Toast.makeText(getContext(), "Something went wrong, try again later, or check " +
+                                    "your internet connection ", Toast.LENGTH_SHORT).show();
 
                         }
                     }

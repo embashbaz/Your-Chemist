@@ -91,7 +91,7 @@ public class MedecineDetails extends Fragment {
             });
         }else {
             setDataView();
-            saveBt.setText("Update");
+            saveBt.setText(R.string.update);
             saveBt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -117,7 +117,8 @@ public class MedecineDetails extends Fragment {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-
+                Toast.makeText(getContext(), "Something went wrong, try again later, or check " +
+                        "your internet connection ", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -151,17 +152,19 @@ public class MedecineDetails extends Fragment {
             db.collection("Medicine").add(medecine).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                 @Override
                 public void onSuccess(DocumentReference documentReference) {
-                    Toast.makeText(getActivity(), "added this drug to your database", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Added this drug to your database", Toast.LENGTH_SHORT).show();
                     clearField();
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(getActivity(), "couldn't add this this item to the db, please try again", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Couldn't add this this item to the db, " +
+                            "please try again or check your internet connection", Toast.LENGTH_LONG).show();
                 }
             });
         }else{
-            Toast.makeText(getActivity(), "please fill all the field, details about the drug are optional ", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "Please fill all the field, details about the drug are optional, make sure that the scientific " +
+                    "name and generic name are not the same and you can only put one if you are not sure about one the name", Toast.LENGTH_LONG).show();
         }
 
 
@@ -203,6 +206,9 @@ public class MedecineDetails extends Fragment {
 
                             );
             Toast.makeText(getContext(), "Medicine Updated", Toast.LENGTH_SHORT).show();
+        }else {
+            Toast.makeText(getActivity(), "Please fill all the field, details about the drug are optional, make sure that the scientific " +
+                    "name and generic name are not the same and you can only put one if you are not sure about one the name  ", Toast.LENGTH_LONG).show();
         }
 
     }

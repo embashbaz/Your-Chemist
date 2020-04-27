@@ -13,6 +13,8 @@ import com.example.yourchemist.R;
 /**
  * A simple {@link Fragment} subclass.
  */
+//This fragment will be implemented later, and will allow chemists to see more details about t
+// he drugs that are needed and and the chemists that have them in the area
 public class InDemandDetails extends Fragment {
 
     public InDemandDetails() {

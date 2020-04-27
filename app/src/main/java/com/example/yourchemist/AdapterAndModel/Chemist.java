@@ -3,18 +3,18 @@ package com.example.yourchemist.AdapterAndModel;
 public class Chemist {
 
 
-    String name;
-    String license;
-    String document;
-    String phone;
-    String email;
-    String country;
-    String town;
-    String area;
-    String adress;
-    String areaCode;
-    String details;
-    String uidDb;
+    protected String name;
+    protected String license;
+    protected String document;
+    protected String phone;
+    protected String email;
+    protected String country;
+    protected String town;
+    protected String area;
+    protected String adress;
+    protected String areaCode;
+    protected String details;
+    protected String uidDb;
 
     public Chemist(){
 

@@ -19,7 +19,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class ClientSearchDetails extends Fragment {
 
-    TextView scientificTxt, genericTxt, manufacturerTxt, priceTxt, availabilityTxt, detailsTxt;
+    TextView scientificTxt, genericTxt, manufacturerTxt, priceTxt, availabilityTxt, detailsTxt,
+            chemistName, chemistPhone, chemist_email, chemist_adress, chemistDetail;
     String medId;
     private FirebaseFirestore db;
 
@@ -38,6 +39,7 @@ public class ClientSearchDetails extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        getActivity().getActionBar().setTitle("Medicine detail");
         View view = inflater.inflate(R.layout.fragment_client_search_details, container, false);
 
         Bundle bundle = this.getArguments();
@@ -50,6 +52,11 @@ public class ClientSearchDetails extends Fragment {
         manufacturerTxt = view.findViewById(R.id.made_in_txt);
         priceTxt = view.findViewById(R.id.price_txt);
         availabilityTxt = view.findViewById(R.id.availability_txt);
+        chemistName = view.findViewById(R.id.chemist_name_detail);
+        chemist_adress = view.findViewById(R.id.adress_detail);
+        chemist_email = view.findViewById(R.id.email_detail);
+        chemistDetail = view.findViewById(R.id.pharmacy_detail);
+        chemistPhone = view.findViewById(R.id.phone_detail);
         detailsTxt = view.findViewById(R.id.drug_detail_txt);
         db = FirebaseFirestore.getInstance();
         getData();
@@ -70,6 +77,11 @@ public class ClientSearchDetails extends Fragment {
                 priceTxt.setText(med.getPrice()+" "+med.getCurrency());
                 availabilityTxt.setText(med.getAvailability());
                 detailsTxt.setText(med.getDetailsMed());
+                chemistName.setText(med.getName());
+                chemist_adress.setText(med.getAdress()+", "+med.getArea()+", "+med.getTown());
+                chemist_email.setText(med.getEmail());
+                chemistDetail.setText(med.getDetails());
+                chemistPhone.setText(med.getPhone());
 
             }
         });

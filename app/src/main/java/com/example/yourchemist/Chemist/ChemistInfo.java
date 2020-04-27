@@ -16,6 +16,7 @@ import com.example.yourchemist.AdapterAndModel.Chemist;
 import com.example.yourchemist.AdapterAndModel.SpinnerValue;
 import com.example.yourchemist.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -156,12 +157,23 @@ public class ChemistInfo extends AppCompatActivity {
 
             Chemist mChemist = new Chemist(chemistName, license, document2,phone, email,
                     country,town, area,adress, areaCode, shopDetails,uid);
-            db.collection("pharmacies").document(uid).set(mChemist);
+            db.collection("pharmacies").document(uid).set(mChemist).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(getApplicationContext(), "Something went wrong, try again later, or check " +
+                            "your internet connection ", Toast.LENGTH_SHORT).show();
+                }
+            });
             goToChemistActivity();
 
 
         }else{
-            Toast.makeText(this, "Please make sure you fill all the field" +
+            Toast.makeText(this, "Please make sure you fill all the field, " +
                     "2nd document and more details field are optional", Toast.LENGTH_LONG).show();
         }
     }

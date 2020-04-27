@@ -2,19 +2,14 @@ package com.example.yourchemist.AdapterAndModel;
 
 public class Medecine extends Chemist {
 
-    String scientificName;
-    String genericName;
-    String countryMade;
-    String currency;
-    String detailsMed;
-
-
-
-    String availability;
-
-
-    String medUid;
-    double price;
+    private String scientificName;
+    private String genericName;
+    private String countryMade;
+    private String currency;
+    private String detailsMed;
+    private String availability;
+    private String medUid;
+    private double price;
     public Medecine(){
 
     }

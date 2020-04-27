@@ -13,7 +13,8 @@ import com.example.yourchemist.R;
 import java.util.ArrayList;
 
 public class InDemandAdapter extends RecyclerView.Adapter<InDemandAdapter.MyViewModel> {
-    private ArrayList<Indemand> inDemandList = new ArrayList<>();
+    private ArrayList<Indemand> inDemandList;
+
     public InDemandAdapter(ArrayList<Indemand> inDemandList){
         this.inDemandList = inDemandList;
     }

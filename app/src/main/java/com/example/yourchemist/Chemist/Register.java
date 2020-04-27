@@ -90,8 +90,6 @@ public class Register extends Fragment {
 
     public void registerNewEmail(final String email, String password){
 
-        //showDialog();
-
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -99,13 +97,9 @@ public class Register extends Fragment {
                         Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
 
                         if (task.isSuccessful()){
-                            Log.d(TAG, "onComplete: AuthState: " + FirebaseAuth.getInstance().getCurrentUser().getUid());
-
 
                             //sendVerificationEmail();
                             setInfo();
-                            //FirebaseAuth.getInstance().signOut();
-
 
                         }
                         if (!task.isSuccessful()) {
@@ -117,6 +111,8 @@ public class Register extends Fragment {
                 });
     }
 
+
+    //This method will be implement later
     private void sendVerificationEmail() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 

@@ -6,10 +6,10 @@ public class Indemand {
 
     public Indemand(){}
 
-    String drugName;
-    String townName;
-    String countryName;
-    List<String> userId;
+    private String drugName;
+    private String townName;
+    private String countryName;
+    private List<String> userId;
 
     public List<String> getUserId() {
         return userId;

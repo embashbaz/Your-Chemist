@@ -106,6 +106,12 @@ public class Login extends Fragment {
         });
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setupFirebaseAuth();
+    }
+
     private void setupFirebaseAuth(){
         Log.d(TAG, "setupFirebaseAuth: started.");
 
@@ -115,8 +121,6 @@ public class Login extends Fragment {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
 
-                    //check if email is verified
-                    // if(user.isEmailVerified()){
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
                     Toast.makeText(getActivity(), "Authenticated with: " + user.getEmail(), Toast.LENGTH_SHORT).show();
 
@@ -125,11 +129,6 @@ public class Login extends Fragment {
                     intent.putExtra("sender", 4);
                     startActivity(intent);
                     getActivity().finish();
-
-                    // }else{
-                    //    Toast.makeText(LoginActivity.this, "Email is not Verified\nCheck your Inbox", Toast.LENGTH_SHORT).show();
-                    //    FirebaseAuth.getInstance().signOut();
-                    // }
 
                 } else {
                     // User is signed out
