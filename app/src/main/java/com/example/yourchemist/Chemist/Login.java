@@ -55,7 +55,6 @@ public class Login extends Fragment {
         mPassword = view.findViewById(R.id.password);
         signIn =  view.findViewById(R.id.email_sign_in_button);
         register = view.findViewById(R.id.link_register);
-        setupFirebaseAuth();
         return view;
     }
 
@@ -107,36 +106,7 @@ public class Login extends Fragment {
         });
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        setupFirebaseAuth();
-    }
 
-    private void setupFirebaseAuth(){
-        Log.d(TAG, "setupFirebaseAuth: started.");
 
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
 
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                    Toast.makeText(getActivity(), "Authenticated with: " + user.getEmail(), Toast.LENGTH_SHORT).show();
-
-                    Intent intent = new Intent(getActivity(), ChemistInfo.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    intent.putExtra("sender", 4);
-                    startActivity(intent);
-                    getActivity().finish();
-
-                } else {
-                    // User is signed out
-                    Log.d(TAG, "onAuthStateChanged:signed_out");
-                }
-                // ...
-            }
-        };
-    }
 }

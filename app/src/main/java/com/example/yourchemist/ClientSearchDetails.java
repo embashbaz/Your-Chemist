@@ -73,7 +73,7 @@ public class ClientSearchDetails extends Fragment {
                 Medecine med = documentSnapshot.toObject(Medecine.class);
                 scientificTxt.setText(med.getScientificName());
                 genericTxt.setText(med.getGenericName());
-                manufacturerTxt.setText(med.getCountryMade());
+                manufacturerTxt.setText("Made in "+med.getCountryMade());
                 priceTxt.setText(med.getPrice()+" "+med.getCurrency());
                 availabilityTxt.setText(med.getAvailability());
                 detailsTxt.setText(med.getDetailsMed());

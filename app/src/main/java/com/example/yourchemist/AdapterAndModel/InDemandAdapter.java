@@ -29,7 +29,8 @@ public class InDemandAdapter extends RecyclerView.Adapter<InDemandAdapter.MyView
     @Override
     public void onBindViewHolder(@NonNull InDemandAdapter.MyViewModel holder, int position) {
         Indemand indemand = inDemandList.get(position);
-        holder.peopleNumber.setText(indemand.getNumberRequest()+"");
+        if(indemand.getNumberRequest() == 1) holder.peopleNumber.setText("Requested by "+indemand.getNumberRequest()+" person");
+        else holder.peopleNumber.setText("Requested by "+indemand.getNumberRequest()+" people");
         holder.nameTxt.setText(indemand.getDrugName());
         holder.statusTxt.setText(indemand.getTownName());
 

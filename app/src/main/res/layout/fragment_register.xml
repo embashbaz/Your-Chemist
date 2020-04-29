@@ -60,10 +60,10 @@
                     android:id="@+id/btn_register"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="35dp"
                     android:layout_below="@+id/input_confirm_password"
-                    android:text="Register"
-                    />
+                    android:layout_marginTop="35dp"
+                    android:background="@color/colorAccent"
+                    android:text="Register" />
 
             </RelativeLayout>
 
