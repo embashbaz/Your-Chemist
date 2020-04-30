@@ -5,15 +5,20 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.yourchemist.AdapterAndModel.Chemist;
 import com.example.yourchemist.AdapterAndModel.SpinnerValue;
+import com.example.yourchemist.MainActivity;
 import com.example.yourchemist.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -34,6 +39,7 @@ public class ChemistInfo extends AppCompatActivity {
     Spinner countrySpinner;
     Button saveBt;
 
+
     String chemistName, license, document2, phone, email, town, area,country,
             adress, areaCode, shopDetails;
 
@@ -41,14 +47,18 @@ public class ChemistInfo extends AppCompatActivity {
     FirebaseFirestore db;
     int code = 1;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user != null)
         uid = user.getUid();
         code = getIntent().getIntExtra("sender", 1);
+        db = FirebaseFirestore.getInstance();
+
 
         setContentView(R.layout.activity_chemist_info);
         chemistNameEt =findViewById(R.id.name_chemist_et);
@@ -63,7 +73,11 @@ public class ChemistInfo extends AppCompatActivity {
         shopDetailsEt = findViewById(R.id.shop_details_et);
         countrySpinner = findViewById(R.id.country_spinner);
         saveBt = findViewById(R.id.save_chemist);
-        if(uid == null || code == 1){
+
+        if(uid != null && code == 4){
+            getDataFromDb();
+        }
+        else if(uid == null || code == 1){
             Intent intent = new Intent(this, ChemistAuth.class);
             Toast.makeText(this, "please login again", Toast.LENGTH_SHORT ).show();
             startActivity(intent);
@@ -86,13 +100,10 @@ public class ChemistInfo extends AppCompatActivity {
                     setData();
                 }
             });
-        }else if(uid != null && code == 4){
-            goToChemistActivity();
-
         }
 
 
-        db = FirebaseFirestore.getInstance();
+
         SpinnerValue values = new SpinnerValue();
 
 
@@ -107,13 +118,27 @@ public class ChemistInfo extends AppCompatActivity {
     }
 
     private void getDataFromDb() {
-        DocumentReference docRef = db.collection("pharmacies").document(uid);
-
-        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+         db.collection("pharmacies").document(uid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                Chemist mChemist = documentSnapshot.toObject(Chemist.class);
-                showData(mChemist);
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    //DocumentSnapshot doc = task.getResult();
+                    if(task.getResult().exists()) {
+                        goToChemistActivity();
+                    }else {
+
+                        saveBt.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                setData();
+                            }
+                        });
+
+                    }
+                }else {
+
+                }
+
             }
         });
 
@@ -185,5 +210,28 @@ public class ChemistInfo extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.chemist_info_menu, menu);
 
+        return super.onCreateOptionsMenu(menu);
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.logout_info:
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                finish();
+
+        }
+
+
+
+        return super.onOptionsItemSelected(item);
+    }
 }

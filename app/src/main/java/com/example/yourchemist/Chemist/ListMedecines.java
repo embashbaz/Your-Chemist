@@ -96,6 +96,11 @@ public class ListMedecines extends Fragment {
                 break;
             case R.id.in_demand_menu:
                 navController.navigate(R.id.action_listMedecines_to_inDemandList);
+                break;
+            case R.id.logout:
+                FirebaseAuth.getInstance().signOut();
+                goToMain();
+                getActivity().finish();
         }
         return super.onOptionsItemSelected(item);
 
@@ -149,13 +154,16 @@ public class ListMedecines extends Fragment {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
 
                 if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK){
-                    Intent intent = new Intent(getActivity(), MainActivity.class);
-                    startActivity(intent);
 
+                    goToMain();
                     return true;
                 }
                 return false;
             }
         });
+    }
+    public void goToMain(){
+        Intent intent = new Intent(getActivity(), MainActivity.class);
+        startActivity(intent);
     }
 }

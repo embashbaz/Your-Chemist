@@ -104,7 +104,7 @@ public class ClientSearch extends Fragment {
                     navController.navigate(R.id.action_clientSearch_to_clientResultList, bundle);
 
                 }else {
-                    Toast.makeText(getActivity(),"please all the field", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(),"please fill all the fields", Toast.LENGTH_LONG).show();
                 }
             }
         });

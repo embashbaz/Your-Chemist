@@ -50,6 +50,7 @@ public class Login extends Fragment {
                              Bundle savedInstanceState) {
         ((ChemistAuth)getActivity()).setActionBarTitle("Login");
         // Inflate the layout for this fragment
+        authneticate();
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         mEmail = view.findViewById(R.id.email);
         mPassword = view.findViewById(R.id.password);
@@ -76,11 +77,12 @@ public class Login extends Fragment {
                             .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
-                                    Intent intent = new Intent(getActivity(), ChemistInfo.class);
-                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                    intent.putExtra("sender", 4);
-                                    startActivity(intent);
-                                    getActivity().finish();
+                                    if(task.isSuccessful()){
+                                        authneticate();
+                                    }else {
+                                       Toast.makeText(getActivity(), "Authentication Failed", Toast.LENGTH_SHORT).show();
+                                    }
+
 
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
@@ -105,7 +107,16 @@ public class Login extends Fragment {
             }
         });
     }
-
+public void authneticate(){
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    if(user != null){
+        Intent intent = new Intent(getActivity(), ChemistInfo.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.putExtra("sender", 4);
+        startActivity(intent);
+        getActivity().finish();
+    }
+}
 
 
 

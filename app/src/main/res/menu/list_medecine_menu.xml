@@ -11,4 +11,9 @@
         android:id="@+id/in_demand_menu"
         app:showAsAction="never"
         />
+    <item
+        android:title="@string/log_out"
+        android:id="@+id/logout"
+        app:showAsAction="never"
+        />
 </menu>

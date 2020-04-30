@@ -130,13 +130,19 @@ public class MedecineDetails extends Fragment {
 
     private void getData(){
 
+        if((!isEmpty(scientificEt.getText().toString()) || !isEmpty(scientificEt.getText().toString())) && !isEmpty(manufacturerEt.getText().toString()) &&
+                !isEmpty(priceEt.getText().toString()) && !isEmpty(currencyEt.getText().toString()) && !isEmpty(availabilitySp.getSelectedItem().toString())
+                ){
         scientificName = scientificEt.getText().toString().trim().trim().toLowerCase();
         genericName = genericEt.getText().toString().trim().toLowerCase();
-        manufurerCountry = manufacturerEt.getText().toString().trim().toLowerCase();
+        manufurerCountry = manufacturerEt.getText().toString().trim();
         price = Double.valueOf(priceEt.getText().toString().trim());
         currency = currencyEt.getText().toString().trim().toLowerCase();
         detail = detailsEt.getText().toString().trim().toLowerCase();
         availability = availabilitySp.getSelectedItem().toString();
+        }else {
+            Toast.makeText(getActivity(), "Please fill all the field, details about the drug are optional", Toast.LENGTH_LONG).show();
+        }
 
     }
 
@@ -147,7 +153,7 @@ public class MedecineDetails extends Fragment {
         if((!isEmpty(scientificName) || !isEmpty(genericName)) && !isEmpty(manufurerCountry) &&
                 !isEmpty(priceEt.getText().toString()) && !isEmpty(currency) && !isEmpty(availability)
         && !scientificName.equals(genericName)){
-            //getData();
+
             Medecine medecine = new Medecine(mChemist, scientificName,genericName,manufurerCountry,
                     currency, detail, price, availability);
             db.collection("Medicine").add(medecine).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -164,7 +170,7 @@ public class MedecineDetails extends Fragment {
                 }
             });
         }else{
-            Toast.makeText(getActivity(), "Please fill all the field, details about the drug are optional, make sure that the scientific " +
+            Toast.makeText(getActivity(), "Make sure that the scientific " +
                     "name and generic name are not the same and you can only put one if you are not sure about one the name", Toast.LENGTH_LONG).show();
         }
 
@@ -208,7 +214,7 @@ public class MedecineDetails extends Fragment {
                             );
             Toast.makeText(getContext(), "Medicine Updated", Toast.LENGTH_SHORT).show();
         }else {
-            Toast.makeText(getActivity(), "Please fill all the field, details about the drug are optional, make sure that the scientific " +
+            Toast.makeText(getActivity(), "Make sure that the scientific " +
                     "name and generic name are not the same and you can only put one if you are not sure about one the name  ", Toast.LENGTH_LONG).show();
         }
 
