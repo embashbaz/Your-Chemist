@@ -99,7 +99,7 @@ public class Register extends Fragment {
 
                         if (task.isSuccessful()){
 
-                            //sendVerificationEmail();
+                            sendVerificationEmail();
                             setInfo();
 
                         }
@@ -140,4 +140,6 @@ public class Register extends Fragment {
         startActivity(intent);
         getActivity().finish();
     }
+
+
 }
