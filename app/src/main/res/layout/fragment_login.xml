@@ -73,7 +73,26 @@
                     android:text="Register"
                     android:gravity="center"
                     android:textSize="16sp"
+                    android:layout_centerHorizontal="true"/>
 
+                <TextView android:id="@+id/forgot_password"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="Forgot the password"
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:layout_below="@+id/link_register"
+                    android:layout_centerHorizontal="true"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_below="@+id/forgot_password"
+                    android:id="@+id/resend_verification_email"
+                    android:text="Resend verification email"
+                    android:textSize="16sp"
                     android:layout_centerHorizontal="true"/>
 
 

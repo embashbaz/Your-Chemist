@@ -36,7 +36,7 @@ public class Login extends Fragment {
     private FirebaseAuth.AuthStateListener mAuthListener;
     private EditText mEmail, mPassword;
     private Button signIn;
-    private TextView register;
+    private TextView register, resendPassword, resendVerificationEmail;
     private NavController navController;
     private  String TAG ="fragement Login";
 
@@ -56,6 +56,8 @@ public class Login extends Fragment {
         mPassword = view.findViewById(R.id.password);
         signIn =  view.findViewById(R.id.email_sign_in_button);
         register = view.findViewById(R.id.link_register);
+        resendVerificationEmail = view.findViewById(R.id.resend_verification_email);
+        resendPassword = view.findViewById(R.id.forgot_password);
         return view;
     }
 
@@ -106,6 +108,13 @@ public class Login extends Fragment {
                     navController.navigate(R.id.action_login2_to_register);
             }
         });
+
+        resendVerificationEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                resendVerificationEmailFragment();
+            }
+        });
     }
 public void authneticate(){
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -117,6 +126,12 @@ public void authneticate(){
         getActivity().finish();
     }
 }
+
+    private void resendVerificationEmailFragment() {
+        ResentVerificationEmailDialog resentVerificationEmailDialog = new ResentVerificationEmailDialog();
+        resentVerificationEmailDialog.setTargetFragment(this,0);
+        resentVerificationEmailDialog.show(getFragmentManager(), "Resend Verification Email");
+    }
 
 
 
