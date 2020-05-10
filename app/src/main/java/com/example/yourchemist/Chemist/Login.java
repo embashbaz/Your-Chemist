@@ -125,22 +125,27 @@ public class Login extends Fragment {
 public void authneticate(){
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     if(user != null){
+        if(user.isEmailVerified()){
         Intent intent = new Intent(getActivity(), ChemistInfo.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.putExtra("sender", 4);
         startActivity(intent);
         getActivity().finish();
+        }else{
+            Toast.makeText(getActivity(), "Email is not Verified\nCheck your Inbox", Toast.LENGTH_SHORT).show();
+            FirebaseAuth.getInstance().signOut();
+        }
     }
 }
 
     private void resendVerificationEmailFragment() {
-        ResentVerificationEmailDialog resentVerificationEmailDialog = new ResentVerificationEmailDialog();
+        ResentVerificationEmailDialog resentVerificationEmailDialog = new ResentVerificationEmailDialog(getActivity());
         resentVerificationEmailDialog.setTargetFragment(this,0);
         resentVerificationEmailDialog.show(getFragmentManager(), "Resend Verification Email");
     }
 
     private void resetPasswordFragment() {
-        ResetPasswordDialog resetPasswordDialog = new ResetPasswordDialog();
+        ResetPasswordDialog resetPasswordDialog = new ResetPasswordDialog(getActivity());
         resetPasswordDialog.setTargetFragment(this,0);
         resetPasswordDialog.show(getFragmentManager(), "Reset Password");
     }

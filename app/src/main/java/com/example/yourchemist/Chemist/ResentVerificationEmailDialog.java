@@ -1,5 +1,6 @@
 package com.example.yourchemist.Chemist;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -30,6 +31,12 @@ public class ResentVerificationEmailDialog extends AppCompatDialogFragment {
 
     private FirebaseUtil firebaseUtil = new FirebaseUtil();
     private EditText emailEt, passwordEt;
+    private Activity activity;
+
+    public ResentVerificationEmailDialog(Activity activity) {
+        this.activity = activity;
+    }
+
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -53,7 +60,7 @@ public class ResentVerificationEmailDialog extends AppCompatDialogFragment {
                         && !isEmpty(emailEt.getText().toString()))
                     authenticate(emailEt.getText().toString(), passwordEt.getText().toString());
                 else
-                    Toast.makeText(getActivity(), "Please fill all the fields", Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, "Please fill all the fields", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -70,7 +77,7 @@ public class ResentVerificationEmailDialog extends AppCompatDialogFragment {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
 
-                            firebaseUtil.sendVerificationEmail(getActivity());
+                            firebaseUtil.sendVerificationEmail(activity);
                             FirebaseAuth.getInstance().signOut();
 
                         }
@@ -78,7 +85,7 @@ public class ResentVerificationEmailDialog extends AppCompatDialogFragment {
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getActivity(), "Invalid Credentials. \nReset your password and try again", Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, "Invalid Credentials. \nReset your password and try again", Toast.LENGTH_SHORT).show();
 
             }
         });
