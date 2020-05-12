@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,13 +16,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.yourchemist.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class UserResultAdapter extends RecyclerView.Adapter<UserResultAdapter.MyViewModel> {
+public class UserResultAdapter extends RecyclerView.Adapter<UserResultAdapter.MyViewModel> implements Filterable {
 
     private ArrayList<Medecine> mMedecine;
+    private ArrayList<Medecine> mMedecineSearch;
     private NavController navController;
     public UserResultAdapter(ArrayList<Medecine> medecine){
         mMedecine = medecine;
+        mMedecineSearch = new ArrayList<>(medecine);
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -45,6 +51,39 @@ public class UserResultAdapter extends RecyclerView.Adapter<UserResultAdapter.My
     @Override
     public int getItemCount() {
         return mMedecine.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                List<Medecine> search = new ArrayList<>();
+                if(charSequence == null || charSequence.length() == 0 ){
+                    search.addAll(mMedecineSearch);
+                }else {
+                    String pattern = charSequence.toString().toLowerCase().trim();
+                    for(Medecine item: mMedecineSearch){
+                        if(item.getGenericName().toLowerCase().contains(pattern) || item.getGenericName().toLowerCase().contains(pattern)
+                                || item.getAvailability().toLowerCase().contains(pattern)){
+                            search.add(item);
+                        }
+                    }
+
+                }
+                FilterResults results = new FilterResults();
+                results.values = search;
+
+                return results;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                mMedecine.clear();
+                mMedecine.addAll((List) filterResults.values);
+                notifyDataSetChanged();
+            }
+        };
     }
 
     public class MyViewModel extends RecyclerView.ViewHolder implements View.OnClickListener{

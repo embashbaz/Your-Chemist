@@ -128,6 +128,10 @@ public class InDemandList extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.list_medecine_menu, menu);
 
+        menu.findItem(R.id.logout).setVisible(false);
+        menu.findItem(R.id.in_demand_menu).setVisible(false);
+        menu.findItem(R.id.add_medicine_menu).setVisible(false);
+
         MenuItem seachItem = menu.findItem(R.id.search_list_medicine);
         SearchView searchView = (SearchView) seachItem.getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
