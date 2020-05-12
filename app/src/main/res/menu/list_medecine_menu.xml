@@ -16,4 +16,10 @@
         android:id="@+id/logout"
         app:showAsAction="never"
         />
+    <item
+        android:id="@+id/search_list_medicine"
+        android:icon="@drawable/ic_search_black_24dp"
+        app:showAsAction="ifRoom|collapseActionView"
+        android:title="Search"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"/>
 </menu>
