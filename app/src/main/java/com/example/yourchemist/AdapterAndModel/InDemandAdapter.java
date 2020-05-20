@@ -1,5 +1,6 @@
 package com.example.yourchemist.AdapterAndModel;
 
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,8 @@ import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.yourchemist.R;
@@ -83,13 +86,30 @@ public class InDemandAdapter extends RecyclerView.Adapter<InDemandAdapter.MyView
 
     }
 
-    public class MyViewModel extends RecyclerView.ViewHolder {
+    public class MyViewModel extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView nameTxt, statusTxt, peopleNumber;
         public MyViewModel(@NonNull View itemView) {
             super(itemView);
             nameTxt = itemView.findViewById(R.id.medecine_item_demand);
             statusTxt = itemView.findViewById(R.id.availabilty_item_demand);
             peopleNumber = itemView.findViewById(R.id.number_item_demand);
+            itemView.setOnClickListener(this);
+
+        }
+
+        @Override
+        public void onClick(View view) {
+
+            int position = getAdapterPosition();
+            Indemand indemand = inDemandList.get(position);
+            Bundle bundle = new Bundle();
+            bundle.putString("country",indemand.getCountryName());
+            bundle.putString("town",indemand.getTownName());
+            bundle.putString("drug", indemand.getDrugName());
+            bundle.putInt("request",indemand.getNumberRequest());
+
+            NavController navController = Navigation.findNavController(view);
+            navController.navigate(R.id.action_inDemandList_to_inDemandDetails, bundle);
 
         }
     }
