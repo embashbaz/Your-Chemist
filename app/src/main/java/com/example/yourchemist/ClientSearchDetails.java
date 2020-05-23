@@ -1,5 +1,7 @@
 package com.example.yourchemist;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -20,7 +22,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class ClientSearchDetails extends Fragment {
 
     TextView scientificTxt, genericTxt, manufacturerTxt, priceTxt, availabilityTxt, detailsTxt,
-            chemistName, chemistPhone, chemist_email, chemist_adress, chemistDetail;
+            chemistName, chemistPhone, chemist_email, chemist_adress, chemistDetail, googleLoc;
     String medId;
     private FirebaseFirestore db;
 
@@ -58,6 +60,7 @@ public class ClientSearchDetails extends Fragment {
         chemistDetail = view.findViewById(R.id.pharmacy_detail);
         chemistPhone = view.findViewById(R.id.phone_detail);
         detailsTxt = view.findViewById(R.id.drug_detail_txt);
+        googleLoc = view.findViewById(R.id.google_location_txt);
         db = FirebaseFirestore.getInstance();
         getData();
 
@@ -70,7 +73,7 @@ public class ClientSearchDetails extends Fragment {
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                Medecine med = documentSnapshot.toObject(Medecine.class);
+                final Medecine med = documentSnapshot.toObject(Medecine.class);
                 scientificTxt.setText(med.getScientificName());
                 genericTxt.setText(med.getGenericName());
                 manufacturerTxt.setText("Made in "+med.getCountryMade());
@@ -82,6 +85,18 @@ public class ClientSearchDetails extends Fragment {
                 chemist_email.setText(med.getEmail());
                 chemistDetail.setText(med.getDetails());
                 chemistPhone.setText(med.getPhone());
+                googleLoc.setText(med.getAreaCode()+" (Click here to open location in google map)");
+                googleLoc.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                       // Uri gmmIntentUri = Uri.parse("google.navigation:q=" +med.getAdress()+"+"+med.getArea()+","+med.getTown()+"+"+med.getCountry());
+                        Uri gmmIntentUri = Uri.parse("http://plus.codes/"+med.getAreaCode());
+                        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                        mapIntent.setPackage("com.google.android.apps.maps");
+                        startActivity(mapIntent);
+                    }
+                });
 
             }
         });

@@ -95,6 +95,7 @@ public class InDemandList extends Fragment {
     }
 
     public void setDataIndemand(Chemist mChemist){
+        inDemandList.clear();
         db.collection("inDemand")
                 .whereEqualTo("countryName", mChemist.getCountry())
                 .whereEqualTo("townName", mChemist.getTown())

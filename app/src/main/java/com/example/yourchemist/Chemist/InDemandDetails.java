@@ -83,7 +83,7 @@ public class InDemandDetails extends Fragment {
                         for (QueryDocumentSnapshot document : query) {
                             Medecine medecine = document.toObject(Medecine.class);
                             if(medecine != null){
-                                data = data + medecine.getName() +" "+ medecine.getAvailability()+"\n";
+                                data = data + medecine.getName() +": "+ medecine.getAvailability()+"\n";
                             }
 
                         }
