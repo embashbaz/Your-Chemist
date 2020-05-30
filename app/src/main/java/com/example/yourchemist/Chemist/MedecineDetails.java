@@ -29,6 +29,8 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
+
 import static android.text.TextUtils.isEmpty;
 
 
@@ -192,6 +194,17 @@ public class MedecineDetails extends Fragment {
         priceEt.setText(bundle.getDouble("price")+"");
         currencyEt.setText(bundle.getString("currency"));
         detailsEt.setText(bundle.getString("detailMed"));
+
+        String[] myvalue = getResources().getStringArray(R.array.availability_array);
+        String gottenValue = bundle.getString("availability");
+
+            for (int x = 0;x< myvalue.length;x++){
+                if(gottenValue.equals(myvalue[x])){
+                    availabilitySp.setSelection(x);
+                }
+            }
+
+
 
 
     }

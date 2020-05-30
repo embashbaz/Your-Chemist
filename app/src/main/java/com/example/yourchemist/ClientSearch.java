@@ -1,6 +1,7 @@
 package com.example.yourchemist;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -38,8 +39,9 @@ public class ClientSearch extends Fragment {
 
     String drugName, townName, areaName, countryName;
     NavController navController;
-
-
+    private SharedPreferences pref;
+    private SharedPreferences.Editor editor;
+    private SpinnerValue values;
 
 
     public ClientSearch() {
@@ -68,7 +70,7 @@ public class ClientSearch extends Fragment {
             //searchArea = view.findViewById(R.id.area_search_et);
             search = view.findViewById(R.id.search_button);
             country = view.findViewById(R.id.client_search_spinner);
-            SpinnerValue values = new SpinnerValue();
+            values = new SpinnerValue();
 
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
@@ -76,10 +78,20 @@ public class ClientSearch extends Fragment {
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         country.setAdapter(adapter);
+        setPreferences();
 
         return view;
         }
 
+    private void setPreferences() {
+        // 0 - for private mode
+        pref = getActivity().getApplication().getSharedPreferences("MyPref", 0);
+        if (pref.contains("country") || pref.contains("town")){
+            searchTown.setText(pref.getString("town", ""));
+            country.setSelection(values.spinnerArray.indexOf(pref.getString("country", "")));
+        }
+
+    }
 
 
     @Override
@@ -101,6 +113,13 @@ public class ClientSearch extends Fragment {
                     bundle.putString("drug", drugName);
                     bundle.putString("town", townName);
                     bundle.putString("country", countryName);
+
+                    editor = pref.edit();
+                    editor.clear();
+                    editor.putString("country", countryName);
+                    editor.putString("town", townName);
+                    editor.apply();
+
                     navController.navigate(R.id.action_clientSearch_to_clientResultList, bundle);
 
                 }else {
