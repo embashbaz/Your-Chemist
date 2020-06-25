@@ -1,13 +1,19 @@
 package com.example.yourchemist.Chemist;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -29,6 +35,8 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
+
 import static android.text.TextUtils.isEmpty;
 
 
@@ -44,6 +52,8 @@ public class MedecineDetails extends Fragment {
     private FirebaseFirestore db;
     private String TAG = "medecine details";
     private Bundle bundle;
+    private String medId;
+    private NavController navController;
 
 
     public MedecineDetails() {
@@ -54,6 +64,7 @@ public class MedecineDetails extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
 
     }
 
@@ -81,7 +92,7 @@ public class MedecineDetails extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        navController = Navigation.findNavController(view);
         bundle = this.getArguments();
         if(bundle == null){
             saveBt.setOnClickListener(new View.OnClickListener() {
@@ -193,11 +204,22 @@ public class MedecineDetails extends Fragment {
         currencyEt.setText(bundle.getString("currency"));
         detailsEt.setText(bundle.getString("detailMed"));
 
+        String[] myvalue = getResources().getStringArray(R.array.availability_array);
+        String gottenValue = bundle.getString("availability");
+
+            for (int x = 0;x< myvalue.length;x++){
+                if(gottenValue.equals(myvalue[x])){
+                    availabilitySp.setSelection(x);
+                }
+            }
+
+
+
 
     }
     private void UpdateMedicine() {
         getData();
-        String medId = bundle.getString("id");
+        medId = bundle.getString("id");
         if((!isEmpty(scientificName) || !isEmpty(genericName)) && !isEmpty(manufurerCountry) &&
                 !isEmpty(priceEt.getText().toString()) && !isEmpty(currency) && !isEmpty(availability)
         && !scientificName.equals(genericName)) {
@@ -212,6 +234,8 @@ public class MedecineDetails extends Fragment {
                             "availability", availability
 
                             );
+            navController.navigateUp();
+           // navController.popBackStack();
             Toast.makeText(getContext(), "Medicine Updated", Toast.LENGTH_SHORT).show();
         }else {
             Toast.makeText(getActivity(), "Make sure that the scientific " +
@@ -220,6 +244,41 @@ public class MedecineDetails extends Fragment {
 
     }
 
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.medicine_details_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.delete_medicine:
+                deleteDoc();
 
 
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void deleteDoc(){
+        medId = bundle.getString("id");
+        db.collection("Medicine").document(medId)
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        navController.navigateUp();
+                       // navController.popBackStack();
+                        Toast.makeText(getActivity(), "Medicine deleted", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error deleting document", e);
+                    }
+                });
+    }
 }

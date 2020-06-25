@@ -4,11 +4,15 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -91,6 +95,7 @@ public class InDemandList extends Fragment {
     }
 
     public void setDataIndemand(Chemist mChemist){
+        inDemandList.clear();
         db.collection("inDemand")
                 .whereEqualTo("countryName", mChemist.getCountry())
                 .whereEqualTo("townName", mChemist.getTown())
@@ -115,6 +120,29 @@ public class InDemandList extends Fragment {
                     Toast.makeText(getContext(), "Something went wrong, try again later, or check " +
                             "your internet connection ", Toast.LENGTH_LONG).show();
                 }
+            }
+        });
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.list_medecine_menu, menu);
+
+        menu.findItem(R.id.logout).setVisible(false);
+        menu.findItem(R.id.in_demand_menu).setVisible(false);
+        menu.findItem(R.id.add_medicine_menu).setVisible(false);
+
+        MenuItem seachItem = menu.findItem(R.id.search_list_medicine);
+        SearchView searchView = (SearchView) seachItem.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+            public boolean onQueryTextChange(String s) {
+                inDemandAdapter.getFilter().filter(s);
+                return false;
             }
         });
     }

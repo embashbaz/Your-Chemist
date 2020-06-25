@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -84,6 +85,19 @@ public class ListMedecines extends Fragment {
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.list_medecine_menu, menu);
+
+        MenuItem seachItem = menu.findItem(R.id.search_list_medicine);
+        SearchView searchView = (SearchView) seachItem.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+            public boolean onQueryTextChange(String s) {
+                chemistAdapter.getFilter().filter(s);
+                return false;
+            }
+        });
 
     }
 

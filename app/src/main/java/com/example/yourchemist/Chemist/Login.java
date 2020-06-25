@@ -36,7 +36,7 @@ public class Login extends Fragment {
     private FirebaseAuth.AuthStateListener mAuthListener;
     private EditText mEmail, mPassword;
     private Button signIn;
-    private TextView register;
+    private TextView register, resetPassword, resendVerificationEmail;
     private NavController navController;
     private  String TAG ="fragement Login";
 
@@ -56,6 +56,8 @@ public class Login extends Fragment {
         mPassword = view.findViewById(R.id.password);
         signIn =  view.findViewById(R.id.email_sign_in_button);
         register = view.findViewById(R.id.link_register);
+        resendVerificationEmail = view.findViewById(R.id.resend_verification_email);
+        resetPassword = view.findViewById(R.id.forgot_password);
         return view;
     }
 
@@ -106,17 +108,47 @@ public class Login extends Fragment {
                     navController.navigate(R.id.action_login2_to_register);
             }
         });
+
+        resendVerificationEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                resendVerificationEmailFragment();
+            }
+        });
+        resetPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                resetPasswordFragment();
+            }
+        });
     }
 public void authneticate(){
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     if(user != null){
+        if(user.isEmailVerified()){
         Intent intent = new Intent(getActivity(), ChemistInfo.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.putExtra("sender", 4);
         startActivity(intent);
         getActivity().finish();
+        }else{
+            Toast.makeText(getActivity(), "Email is not Verified\nCheck your Inbox", Toast.LENGTH_SHORT).show();
+            FirebaseAuth.getInstance().signOut();
+        }
     }
 }
+
+    private void resendVerificationEmailFragment() {
+        ResentVerificationEmailDialog resentVerificationEmailDialog = new ResentVerificationEmailDialog(getActivity());
+        resentVerificationEmailDialog.setTargetFragment(this,0);
+        resentVerificationEmailDialog.show(getFragmentManager(), "Resend Verification Email");
+    }
+
+    private void resetPasswordFragment() {
+        ResetPasswordDialog resetPasswordDialog = new ResetPasswordDialog(getActivity());
+        resetPasswordDialog.setTargetFragment(this,0);
+        resetPasswordDialog.show(getFragmentManager(), "Reset Password");
+    }
 
 
 

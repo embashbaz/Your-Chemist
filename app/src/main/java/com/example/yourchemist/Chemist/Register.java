@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.yourchemist.AdapterAndModel.FirebaseUtil;
 import com.example.yourchemist.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -32,6 +33,7 @@ public class Register extends Fragment {
     private EditText mEmail, mPassword, mConfirmPassword;
     private Button mRegister;
     public static final String TAG ="Register fragment ";
+    private FirebaseUtil firebaseUtil = new FirebaseUtil();
 
     public Register() {
         // Required empty public constructor
@@ -99,7 +101,7 @@ public class Register extends Fragment {
 
                         if (task.isSuccessful()){
 
-                            //sendVerificationEmail();
+                            firebaseUtil.sendVerificationEmail(getActivity());
                             setInfo();
 
                         }
@@ -114,25 +116,7 @@ public class Register extends Fragment {
 
 
     //This method will be implement later
-    private void sendVerificationEmail() {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        if (user != null) {
-            user.sendEmailVerification()
-                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                Toast.makeText(getActivity(), "Sent Verification Email", Toast.LENGTH_SHORT).show();
-                            }
-                            else{
-                                Toast.makeText(getActivity(), "Couldn't  Send Verification Email", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-        }
-
-    }
     private void setInfo(){
 
         Intent intent = new Intent(getActivity(), ChemistInfo.class);
@@ -140,4 +124,6 @@ public class Register extends Fragment {
         startActivity(intent);
         getActivity().finish();
     }
+
+
 }
